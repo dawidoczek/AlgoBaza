@@ -1,0 +1,1945 @@
+
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Trenażer Egzaminacyjny: Algorytmy</title>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    colors: {
+                        brand: {
+                            50: '#f0f7ff',
+                            100: '#e0effe',
+                            500: '#3b82f6',
+                            600: '#2563eb',
+                            700: '#1d4ed8',
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+    <!-- MathJax for rendering equations -->
+    <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+    <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <style>
+        .custom-scrollbar::-webkit-scrollbar {
+            width: 6px;
+            height: 6px;
+        }
+        .custom-scrollbar::-webkit-scrollbar-track {
+            background: transparent;
+        }
+        .custom-scrollbar::-webkit-scrollbar-thumb {
+            background: #cbd5e1;
+            border-radius: 3px;
+        }
+        .dark .custom-scrollbar::-webkit-scrollbar-thumb {
+            background: #475569;
+        }
+    </style>
+</head>
+<body class="bg-slate-50 dark:bg-slate-900 text-slate-800 dark:text-slate-100 font-sans transition-colors duration-200 min-h-screen flex flex-col">
+
+    <!-- Top Navigation Header -->
+    <header class="bg-white dark:bg-slate-800 border-b border-slate-200 dark:border-slate-700 sticky top-0 z-40 shadow-sm transition-colors">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
+            <div class="flex items-center space-x-3">
+                <div class="p-2 bg-blue-600 rounded-lg text-white">
+                    <!-- Network Icon -->
+                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10"></path>
+                    </svg>
+                </div>
+                <div>
+                    <h1 class="text-lg font-bold tracking-tight">Trenażer Algorytmy</h1>
+                    <p class="text-xs text-slate-500 dark:text-slate-400">Kompleksowa Baza Pytań Egzaminacyjnych</p>
+                </div>
+            </div>
+
+            <!-- Quick Stats & Theme Controls -->
+            <div class="flex items-center space-x-4">
+                <button id="theme-toggle" class="p-2 text-slate-500 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-700 rounded-lg transition-colors">
+                    <!-- Moon Icon -->
+                    <svg id="theme-moon" class="w-5 h-5 hidden" fill="currentColor" viewBox="0 0 20 20">
+                        <path d="M17.293 13.293A8 8 0 016.707 2.707a8.001 8.001 0 1010.586 10.586z"></path>
+                    </svg>
+                    <!-- Sun Icon -->
+                    <svg id="theme-sun" class="w-5 h-5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
+                        <path fill-rule="evenodd" d="M10 2a1 1 0 011 1v1a1 1 0 11-2 0V3a1 1 0 011-1zm4 8a4 4 0 11-8 0 4 4 0 018 0zm-.464 4.95l.707.707a1 1 0 001.414-1.414l-.707-.707a1 1 0 00-1.414 1.414zm2.12-10.607a1 1 0 010 1.414l-.706.707a1 1 0 11-1.414-1.414l.707-.707a1 1 0 011.414 0zM17 11a1 1 0 100-2h-1a1 1 0 100 2h1zm-7 4a1 1 0 011 1v1a1 1 0 11-2 0v-1a1 1 0 011-1zM5.05 6.464A1 1 0 106.464 5.05l-.707-.707a1 1 0 00-1.414 1.414l.707.707zm1.414 8.486l-.707.707a1 1 0 01-1.414-1.414l.707-.707a1 1 0 011.414 1.414zM4 11a1 1 0 100-2H3a1 1 0 000 2h1z" clip-rule="evenodd"></path>
+                    </svg>
+
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 flex-1 w-full flex flex-col md:flex-row gap-8">
+        
+        <!-- Sidebar Navigation Controls -->
+        <aside class="w-full md:w-64 shrink-0 space-y-4">
+            <div class="bg-white dark:bg-slate-800 p-4 rounded-2xl border border-slate-200 dark:border-slate-700 shadow-sm transition-colors">
+                <p class="text-xs font-semibold text-slate-400 dark:text-slate-500 uppercase tracking-wider mb-3">Tryby Pracy</p>
+                <nav class="space-y-1">
+                    <button id="nav-dashboard" class="w-full flex items-center space-x-3 px-3 py-2.5 text-sm font-medium rounded-xl transition-all bg-blue-50 text-blue-600 dark:bg-blue-900/30 dark:text-blue-400">
+                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6a2 2 0 012-2h2a2 2 0 012 2v4a2 2 0 01-2 2H6a2 2 0 01-2-2V6zM14 6a2 2 0 012-2h2a2 2 0 012 2v4a2 2 0 01-2 2h-2a2 2 0 01-2-2V6zM4 16a2 2 0 012-2h2a2 2 0 012 2v4a2 2 0 01-2 2H6a2 2 0 01-2-2v-4zM14 16a2 2 0 012-2h2a2 2 0 012 2v4a2 2 0 01-2 2h-2a2 2 0 01-2-2v-4z"></path>
+                        </svg>
+                        <span>Panel główny</span>
+                    </button>
+                    <button id="nav-study" class="w-full flex items-center space-x-3 px-3 py-2.5 text-sm font-medium rounded-xl transition-all text-slate-600 dark:text-slate-400 hover:bg-slate-50 dark:hover:bg-slate-700/50">
+                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"></path>
+                        </svg>
+                        <span>Tryb Nauki</span>
+                    </button>
+                    <button id="nav-exam" class="w-full flex items-center space-x-3 px-3 py-2.5 text-sm font-medium rounded-xl transition-all text-slate-600 dark:text-slate-400 hover:bg-slate-50 dark:hover:bg-slate-700/50">
+                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                        </svg>
+                        <span>Tryb Egzaminu</span>
+                    </button>
+                    <button id="nav-browse" class="w-full flex items-center space-x-3 px-3 py-2.5 text-sm font-medium rounded-xl transition-all text-slate-600 dark:text-slate-400 hover:bg-slate-50 dark:hover:bg-slate-700/50">
+                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path>
+                        </svg>
+                        <span>Przeglądaj Bazę</span>
+                    </button>
+                    <button id="nav-starred" class="w-full flex items-center space-x-3 px-3 py-2.5 text-sm font-medium rounded-xl transition-all text-slate-600 dark:text-slate-400 hover:bg-slate-50 dark:hover:bg-slate-700/50">
+                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11.049 2.927c.3-.921 1.603-.921 1.902 0l1.519 4.674a1 1 0 00.95.69h4.915c.969 0 1.371 1.24.588 1.81l-3.976 2.888a1 1 0 00-.363 1.118l1.518 4.674c.3.922-.755 1.688-1.538 1.118l-3.976-2.888a1 1 0 00-1.176 0l-3.976 2.888c-.783.57-1.838-.197-1.538-1.118l1.518-4.674a1 1 0 00-.363-1.118l-3.976-2.888c-.784-.57-.38-1.81.588-1.81h4.914a1 1 0 00.951-.69l1.519-4.674z"></path>
+                        </svg>
+                        <span>Ulubione pytania</span>
+                    </button>
+                </nav>
+            </div>
+
+            <!-- Global Stats Card -->
+            <div class="bg-white dark:bg-slate-800 p-4 rounded-2xl border border-slate-200 dark:border-slate-700 shadow-sm transition-colors space-y-3">
+                <p class="text-xs font-semibold text-slate-400 dark:text-slate-500 uppercase tracking-wider">Twoje Postępy</p>
+                <div class="space-y-2 text-sm">
+                    <div class="flex justify-between">
+                        <span class="text-slate-500 dark:text-slate-400">Rozwiązane:</span>
+                        <span id="stat-solved" class="font-semibold">0 / 201</span>
+                    </div>
+                    <div class="flex justify-between">
+                        <span class="text-slate-500 dark:text-slate-400">Skuteczność:</span>
+                        <span id="stat-accuracy" class="font-semibold text-green-600 dark:text-green-400">0%</span>
+                    </div>
+                    <div class="w-full bg-slate-100 dark:bg-slate-700 rounded-full h-2">
+                        <div id="stat-progress-bar" class="bg-blue-600 h-2 rounded-full" style="width: 0%"></div>
+                    </div>
+                </div>
+            </div>
+        </aside>
+
+        <!-- Main Workspace Area -->
+        <main class="flex-1 space-y-6">
+            
+            <!-- SECTION 1: DASHBOARD -->
+            <section id="sec-dashboard" class="space-y-6">
+                <div class="bg-gradient-to-r from-blue-600 to-indigo-700 rounded-3xl p-6 sm:p-8 text-white shadow-lg relative overflow-hidden">
+                    <div class="relative z-10 max-w-lg space-y-4">
+                        <h2 class="text-2xl sm:text-3xl font-extrabold tracking-tight">Test Algorytmy Zamknięte zadania</h2>
+                        <p class="text-blue-100 text-sm sm:text-base leading-relaxed">
+                            Sorka Doktorka Łukasik wymagająca jest, zadania robi głównie otwarte. Przerobiłem otwarte na zamknięte zeby sie nauczyć dało.  <br>
+                            Baza jest od zaocznych wiec hgw czy siądzie. <br>
+                            oryginalna aplikacja <a href="https://github.com/fvjsdkjfsjdbkfvwerewrewr/testtt" class="text-red-300 hover:text-red-400 underline">tutaj</a>
+
+                        </p>
+                        <div class="flex flex-wrap gap-3 pt-2">
+                            <button onclick="switchTab('study')" class="bg-white text-blue-600 hover:bg-blue-50 font-semibold px-5 py-2.5 rounded-xl text-sm transition shadow-sm">Zacznij naukę</button>
+                            <button onclick="switchTab('exam')" class="bg-blue-500/30 hover:bg-blue-500/40 text-white font-semibold px-5 py-2.5 rounded-xl text-sm border border-blue-400/30 transition">Symuluj egzamin</button>
+                        </div>
+                    </div>
+                    <!-- Absolute Decorative Wireframe Icon -->
+                    <div class="absolute right-0 bottom-0 opacity-10 transform translate-x-10 translate-y-10 pointer-events-none">
+                        <svg class="w-80 h-80" fill="currentColor" viewBox="0 0 20 20">
+                            <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm1-11a1 1 0 10-2 0v2H7a1 1 0 100 2h2v2a1 1 0 102 0v-2h2a1 1 0 100-2h-2V7z" clip-rule="evenodd"></path>
+                        </svg>
+                    </div>
+                </div>
+
+                <!-- Grid Options -->
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                    <div class="bg-white dark:bg-slate-800 p-6 rounded-2xl border border-slate-200 dark:border-slate-700 shadow-sm space-y-3">
+                        <div class="w-10 h-10 bg-green-100 dark:bg-green-900/30 text-green-600 dark:text-green-400 rounded-xl flex items-center justify-center">
+                            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"></path>
+                            </svg>
+                        </div>
+                        <h3 class="font-bold text-lg">Tryb Nauki</h3>
+                        <p class="text-sm text-slate-500 dark:text-slate-400 leading-normal">
+                            Systematycznie odpowiadaj na pytania jedno po drugim z natychmiastowym sprawdzaniem poprawności oraz czytaniem komentarzy wyjaśniających.
+                        </p>
+                        <button onclick="switchTab('study')" class="text-blue-600 hover:text-blue-700 text-sm font-semibold flex items-center space-x-1">
+                            <span>Przejdź do nauki</span>
+                            <span>&rarr;</span>
+                        </button>
+                    </div>
+
+                    <div class="bg-white dark:bg-slate-800 p-6 rounded-2xl border border-slate-200 dark:border-slate-700 shadow-sm space-y-3">
+                        <div class="w-10 h-10 bg-red-100 dark:bg-red-900/30 text-red-600 dark:text-red-400 rounded-xl flex items-center justify-center">
+                            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                            </svg>
+                        </div>
+                        <h3 class="font-bold text-lg">Tryb Egzaminu</h3>
+                        <p class="text-sm text-slate-500 dark:text-slate-400 leading-normal">
+                            Sprawdź swoją wiedzę pod presją czasu. Wylosuj określoną liczbę pytań i przejdź pełny test z podsumowaniem i oceną na koniec.
+                        </p>
+                        <button onclick="switchTab('exam')" class="text-blue-600 hover:text-blue-700 text-sm font-semibold flex items-center space-x-1">
+                            <span>Konfiguruj test</span>
+                            <span>&rarr;</span>
+                        </button>
+                    </div>
+
+                    <div class="bg-white dark:bg-slate-800 p-6 rounded-2xl border border-slate-200 dark:border-slate-700 shadow-sm space-y-3">
+                        <div class="w-10 h-10 bg-purple-100 dark:bg-purple-900/30 text-purple-600 dark:text-purple-400 rounded-xl flex items-center justify-center">
+                            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19.428 15.428a2 2 0 00-1.022-.547l-2.387-.477a6 6 0 00-3.86.517l-.318.158a6 6 0 01-3.86.517L6.05 15.21a2 2 0 00-1.806.547M8 4h8l-1 1v5.172a2 2 0 00.586 1.414l5 5c1.26 1.26.367 3.414-1.415 3.414H4.828c-1.782 0-2.674-2.154-1.414-3.414l5-5A2 2 0 009 10.172V5L8 4z"></path>
+                            </svg>
+                        </div>
+                        <h3 class="font-bold text-lg">Zarządzanie Danymi</h3>
+                        <p class="text-sm text-slate-500 dark:text-slate-400 leading-normal">
+                            Możesz w każdej chwili wyczyścić zapisaną historię postępów i statystyki błędów, aby rozpocząć proces powtórek całkowicie od nowa.
+                        </p>
+                        <button onclick="resetStats()" class="text-red-500 hover:text-red-600 text-sm font-semibold flex items-center space-x-1">
+                            <span>Wyczyść postępy</span>
+                            <span>&rarr;</span>
+                        </button>
+                    </div>
+                </div>
+            </section>
+
+            <!-- SECTION 2: STUDY MODE -->
+            <section id="sec-study" class="hidden space-y-6">
+                <div class="flex items-center justify-between">
+                    <h2 class="text-xl font-bold">Interaktywny Tryb Nauki</h2>
+                    <div class="flex items-center space-x-3">
+                        <label class="flex items-center space-x-2">
+                            <span class="text-xs text-slate-400">Idź do pytania:</span>
+                            <input type="number" id="study-go-to" min="1" max="201" step="0.1" class="w-16 px-2 py-1 text-xs border rounded-lg bg-white dark:bg-slate-800 border-slate-200 dark:border-slate-700" onchange="jumpToStudyQuestion(this.value)">
+                        </label>
+                        <label class="flex items-center space-x-2 text-xs text-slate-400">
+                            <input type="checkbox" id="study-shuffle" onchange="toggleStudyShuffle(this.checked)" />
+                            <span>Losuj kolejność</span>
+                        </label>
+                    </div>
+                </div>
+
+                <!-- Main Quiz Card -->
+                <div id="study-card" class="bg-white dark:bg-slate-800 p-6 rounded-3xl border border-slate-200 dark:border-slate-700 shadow-sm space-y-6 transition-all">
+                    <!-- Loaded dynamically -->
+                </div>
+            </section>
+
+            <!-- SECTION 3: EXAM MODE -->
+            <section id="sec-exam" class="hidden space-y-6">
+                <!-- Exam setup interface -->
+                <div id="exam-setup" class="bg-white dark:bg-slate-800 p-6 rounded-3xl border border-slate-200 dark:border-slate-700 shadow-sm space-y-6">
+                    <h2 class="text-xl font-bold">Ustawienia Egzaminu próbnego</h2>
+                    
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                        <div class="space-y-2">
+                            <label class="block text-sm font-medium text-slate-600 dark:text-slate-400">Liczba pytań w teście:</label>
+                            <select id="exam-count" class="w-full p-2.5 border rounded-xl bg-white dark:bg-slate-700 border-slate-200 dark:border-slate-600">
+                                <option value="10">10 pytań</option>
+                                <option value="20">20 pytań</option>
+                                <option value="50">50 pytań</option>
+                                <option value="all">Wszystkie pytania bazy</option>
+                            </select>
+                        </div>
+                        <div class="space-y-2">
+                            <label class="block text-sm font-medium text-slate-600 dark:text-slate-400">Limit czasu na cały egzamin:</label>
+                            <select id="exam-time" class="w-full p-2.5 border rounded-xl bg-white dark:bg-slate-700 border-slate-200 dark:border-slate-600">
+                                <option value="5">5 minut</option>
+                                <option value="15">15 minut</option>
+                                <option value="30" selected>30 minut</option>
+                                <option value="60">60 minut</option>
+                                <option value="no-limit">Brak limitu czasu</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <button onclick="startExam()" class="w-full bg-blue-600 hover:bg-blue-700 text-white font-semibold py-3 px-6 rounded-xl transition duration-150 shadow-md">
+                        Rozpocznij egzamin
+                    </button>
+                </div>
+
+                <!-- Live Exam Active Window -->
+                <div id="exam-active" class="hidden space-y-6">
+                    <div class="bg-white dark:bg-slate-800 p-4 rounded-2xl border border-slate-200 dark:border-slate-700 flex items-center justify-between shadow-sm">
+                        <div class="flex items-center space-x-3">
+                            <span class="text-sm font-semibold bg-blue-50 text-blue-600 dark:bg-blue-900/30 dark:text-blue-400 px-3 py-1 rounded-full" id="exam-progress-badge">Pytanie 1 / ${questionBank.length}</span>
+                        </div>
+                        <div class="flex items-center space-x-2 text-red-600 dark:text-red-400 font-mono font-bold" id="exam-timer-wrapper">
+                            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                            </svg>
+                            <span id="exam-timer">30:00</span>
+                        </div>
+                    </div>
+
+                    <div id="exam-question-card" class="bg-white dark:bg-slate-800 p-6 rounded-3xl border border-slate-200 dark:border-slate-700 shadow-sm space-y-6">
+                        <!-- Loaded dynamically during exam -->
+                    </div>
+
+                    <div class="flex justify-between items-center">
+                        <button onclick="prevExamQuestion()" id="exam-prev-btn" class="bg-slate-200 dark:bg-slate-700 text-slate-700 dark:text-slate-200 font-semibold px-5 py-2.5 rounded-xl text-sm transition">Poprzednie</button>
+                        <button onclick="nextExamQuestion()" id="exam-next-btn" class="bg-blue-600 text-white font-semibold px-5 py-2.5 rounded-xl text-sm transition">Następne / Zakończ</button>
+                    </div>
+                </div>
+
+                <!-- Exam Finished / Results Screen -->
+                <div id="exam-results" class="hidden bg-white dark:bg-slate-800 p-6 rounded-3xl border border-slate-200 dark:border-slate-700 shadow-sm space-y-6">
+                    <div class="text-center py-6 space-y-3 border-b border-slate-100 dark:border-slate-700">
+                        <div class="inline-flex p-4 rounded-full" id="exam-result-icon-bg">
+                            <svg class="w-12 h-12" fill="none" stroke="currentColor" viewBox="0 0 24 24" id="exam-result-icon">
+                                <!-- Check or X dynamically loaded -->
+                            </svg>
+                        </div>
+                        <h2 class="text-2xl font-extrabold" id="exam-result-title">Gratulacje! Zdałeś!</h2>
+                        <p class="text-slate-500 dark:text-slate-400 text-sm" id="exam-result-subtitle">Uzyskana ocena odzwierciedla Twoją znajomość bazy.</p>
+                    </div>
+
+                    <div class="grid grid-cols-2 md:grid-cols-4 gap-4 text-center">
+                        <div class="p-4 bg-slate-50 dark:bg-slate-700/50 rounded-2xl">
+                            <p class="text-xs text-slate-400 uppercase font-semibold">Twój wynik</p>
+                            <p class="text-2xl font-bold text-blue-600 dark:text-blue-400 mt-1" id="exam-score">85%</p>
+                        </div>
+                        <div class="p-4 bg-slate-50 dark:bg-slate-700/50 rounded-2xl">
+                            <p class="text-xs text-slate-400 uppercase font-semibold">Poprawne odp.</p>
+                            <p class="text-2xl font-bold mt-1" id="exam-correct-count">17 / 20</p>
+                        </div>
+                        <div class="p-4 bg-slate-50 dark:bg-slate-700/50 rounded-2xl">
+                            <p class="text-xs text-slate-400 uppercase font-semibold">Czas rozwiązania</p>
+                            <p class="text-2xl font-bold mt-1" id="exam-time-elapsed">14:22</p>
+                        </div>
+                        <div class="p-4 bg-slate-50 dark:bg-slate-700/50 rounded-2xl">
+                            <p class="text-xs text-slate-400 uppercase font-semibold">Ocena końcowa</p>
+                            <p class="text-2xl font-bold mt-1 text-green-600 dark:text-green-400" id="exam-final-grade">Pozytywna</p>
+                        </div>
+                    </div>
+
+                    <div class="space-y-4">
+                        <h3 class="font-bold text-lg border-b pb-2">Przegląd odpowiedzi</h3>
+                        <div id="exam-results-review" class="space-y-4 max-h-[500px] overflow-y-auto pr-2 custom-scrollbar">
+                            <!-- Dynamic evaluation list -->
+                        </div>
+                    </div>
+
+                    <button onclick="exitExam()" class="w-full bg-slate-100 hover:bg-slate-200 dark:bg-slate-700 dark:hover:bg-slate-600 text-slate-800 dark:text-white font-semibold py-3 px-6 rounded-xl transition duration-150">
+                        Wróć do wyboru trybu
+                    </button>
+                </div>
+            </section>
+
+            <!-- SECTION 4: BROWSE ALL QUESTIONS -->
+            <section id="sec-browse" class="hidden space-y-6">
+                <div class="flex flex-col md:flex-row md:items-center justify-between gap-4">
+                    <h2 class="text-xl font-bold">Wszystkie pytania bazy</h2>
+                    <div class="relative flex-1 max-w-md">
+                        <input type="text" id="search-input" onkeyup="filterQuestions()" placeholder="Wyszukaj zagadnienie np. RIP, DNS..." class="w-full pl-10 pr-4 py-2.5 border rounded-xl bg-white dark:bg-slate-800 border-slate-200 dark:border-slate-700 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500">
+                        <span class="absolute left-3.5 top-3 text-slate-400">
+                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path>
+                            </svg>
+                        </span>
+                    </div>
+                </div>
+
+                <div id="browse-list" class="space-y-4 max-h-[650px] overflow-y-auto pr-2 custom-scrollbar">
+                    <!-- Dynamic database listing -->
+                </div>
+            </section>
+
+            <!-- SECTION 5: STARRED / FAVORITE -->
+            <section id="sec-starred" class="hidden space-y-6">
+                <h2 class="text-xl font-bold">Twoje Ulubione Pytania</h2>
+                <div id="starred-list" class="space-y-4">
+                    <!-- Loaded dynamically -->
+                </div>
+            </section>
+        </main>
+    </div>
+
+    <!-- Persistent Global Notification System -->
+    <div id="toast" class="fixed bottom-5 right-5 bg-slate-900 text-white px-4 py-2.5 rounded-xl shadow-lg transition-transform duration-300 transform translate-y-20 flex items-center space-x-2 text-sm z-50">
+        <span id="toast-msg">Pytanie dodane do ulubionych</span>
+    </div>
+
+    <!-- Javascript Logical Hub -->
+    <script>
+const questionBank = [
+    {
+        "id": 1,
+        "type": "choice",
+        "q": "Jaki jest rząd złożoności algorytmu wyszukiwania binarnego?",
+        "a": "O(n)",
+        "b": "O(log n)",
+        "c": "O(n^2)",
+        "d": "O(n log n)",
+        "correct": "b",
+        "exp": "Złożoność algorytmu wyszukiwania binarnego to logarytm o podstawie 2 z n, czyli O(log n)."
+    },
+    {
+        "id": 2,
+        "type": "choice",
+        "q": "Na jakim zbiorze można stosować algorytm wyszukiwania binarnego?",
+        "a": "Dowolnym i nieuporządkowanym",
+        "b": "Posortowanym rosnąco lub malejąco",
+        "c": "Tylko na liczbach całkowitych",
+        "d": "Tylko na zbiorze różnowartościowym",
+        "correct": "b",
+        "exp": "Algorytmy wyszukiwania binarnego (oraz interpolacyjnego) wymagają, aby zbiór danych był wstępnie posortowany."
+    },
+    {
+        "id": 3,
+        "type": "choice",
+        "q": "Jaki jest rząd złożoności algorytmu wyszukiwania interpolacyjnego?",
+        "a": "O(log(log n))",
+        "b": "O(log n)",
+        "c": "O(n)",
+        "d": "O(1)",
+        "correct": "a",
+        "exp": "Zgodnie z materiałami, złożoność wyszukiwania interpolacyjnego wynosi średnio O(log(log n))."
+    },
+    {
+        "id": 4,
+        "type": "choice",
+        "q": "Podaj uśrednioną złożoność algorytmu sortowania QuickSort (sortowanie szybkie):",
+        "a": "O(n)",
+        "b": "O(n^2)",
+        "c": "O(n log n)",
+        "d": "O(log n)",
+        "correct": "c",
+        "exp": "Przeciętna złożoność sortowania QuickSort to O(n log n)."
+    },
+    {
+        "id": 5,
+        "type": "choice",
+        "q": "Ile wynosi dokładniejsza wartość średniej liczby porównań dla algorytmu QuickSort?",
+        "a": "n^2 / 4",
+        "b": "n^2 / 2",
+        "c": "1,4 n log2 n",
+        "d": "n",
+        "correct": "c",
+        "exp": "Z notatek wynika, że QuickSort wykonuje średnio 1,4 n log2 n operacji."
+    },
+    {
+        "id": 6,
+        "type": "choice",
+        "q": "Jaka jest złożoność algorytmu sortowania SelectionSort (przez wybieranie)?",
+        "a": "O(n log n)",
+        "b": "O(n)",
+        "c": "O(n^2)",
+        "d": "O(n^3)",
+        "correct": "c",
+        "exp": "Algorytm SelectionSort wykonuje się w czasie kwadratowym O(n^2)."
+    },
+    {
+        "id": 7,
+        "type": "choice",
+        "q": "Ile wynosi średnia liczba porównań dla algorytmu sortowania przez wybieranie (SelectionSort)?",
+        "a": "n^2 / 4",
+        "b": "n^2 / 2",
+        "c": "n^2",
+        "d": "1,4 n log n",
+        "correct": "a",
+        "exp": "Dla algorytmu SelectionSort średnia liczba operacji to n^2 / 4."
+    },
+    {
+        "id": 8,
+        "type": "choice",
+        "q": "Jaka jest złożoność algorytmu sortowania bąbelkowego (BubbleSort)?",
+        "a": "O(n log n)",
+        "b": "O(n^2)",
+        "c": "O(n)",
+        "d": "O(1)",
+        "correct": "b",
+        "exp": "BubbleSort jest prostym algorytmem, którego złożoność wynosi O(n^2)."
+    },
+    {
+        "id": 9,
+        "type": "choice",
+        "q": "Ile wynosi średnia liczba porównań dla algorytmu BubbleSort?",
+        "a": "n^2 / 4",
+        "b": "n^2 / 2",
+        "c": "n log n",
+        "d": "n",
+        "correct": "b",
+        "exp": "Algorytm sortowania bąbelkowego wymaga średnio n^2 / 2 operacji porównań."
+    },
+    {
+        "id": 10,
+        "type": "choice",
+        "q": "Jaka jest złożoność algorytmu sortowania przez wstawianie (InsertionSort)?",
+        "a": "O(n^2)",
+        "b": "O(n)",
+        "c": "O(log n)",
+        "d": "O(n log n)",
+        "correct": "a",
+        "exp": "Podobnie jak inne proste algorytmy, InsertionSort posiada złożoność O(n^2)."
+    },
+    {
+        "id": 11,
+        "type": "choice",
+        "q": "Ile wynosi średnia liczba porównań dla algorytmu InsertionSort?",
+        "a": "n^2 / 4",
+        "b": "n^2 / 2",
+        "c": "n",
+        "d": "n^2",
+        "correct": "a",
+        "exp": "Średnia liczba operacji dla sortowania przez wstawianie wynosi n^2 / 4."
+    },
+    {
+        "id": 12,
+        "type": "choice",
+        "q": "Podaj złożoność algorytmu sortowania typu 0-1 (np. dzielenie elementów na parzyste/nieparzyste lub podzielne przez 3):",
+        "a": "O(n^2)",
+        "b": "O(n log n)",
+        "c": "O(n)",
+        "d": "O(1)",
+        "correct": "c",
+        "exp": "Sortowanie typu 0-1 działa w czasie liniowym, czyli O(n)."
+    },
+    {
+        "id": 13,
+        "type": "choice",
+        "q": "Ile razy przeciętnie algorytm sortowania przez wybieranie jest szybszy niż algorytm sortowania bąbelkowego dla dowolnego zbioru (np. 2^9 elementów)?",
+        "a": "2 razy",
+        "b": "4 razy",
+        "c": "Są tak samo szybkie",
+        "d": "Jest wolniejszy",
+        "correct": "a",
+        "exp": "Skoro BubbleSort to n^2/2, a SelectionSort to n^2/4, algorytm przez wybieranie jest 2 razy szybszy ((n^2/2)/(n^2/4) = 2)."
+    },
+    {
+        "id": 14,
+        "type": "choice",
+        "q": "Czym z definicji jest funkcja haszująca?",
+        "a": "Funkcją szyfrującą pliki metodą klucza publicznego",
+        "b": "Funkcją przyporządkowującą dowolnie dużej liczbie krótką, zawsze stałą, quasi-losową wartość (Hash)",
+        "c": "Funkcją służącą do sortowania danych w pamięci cache",
+        "d": "Modułem generującym tylko liczby pierwsze",
+        "correct": "b",
+        "exp": "Funkcja haszująca z dowolnych danych wejściowych generuje skrót (hash) o zawsze ustalonym, stałym rozmiarze."
+    },
+    {
+        "id": 15,
+        "type": "choice",
+        "q": "Do czego m.in. służy algorytm Karpa-Rabina?",
+        "a": "Do sortowania grafów topologicznie",
+        "b": "Do odnajdywania najkrótszej ścieżki w labiryncie",
+        "c": "Do dopasowania (wyszukiwania) wzorca w tekście przy użyciu funkcji haszującej",
+        "d": "Do szybkiego potęgowania modularnego",
+        "correct": "c",
+        "exp": "Algorytm Karpa-Rabina używa haszowania, aby błyskawicznie sprawdzić, czy podciąg odpowiada szukanemu wzorcowi."
+    },
+    {
+        "id": 16,
+        "type": "choice",
+        "q": "Jaka jest oczekiwana złożoność obliczeniowa algorytmu Karpa-Rabina dla tekstu o dł. n i wzorca dł. m?",
+        "a": "O(m * n)",
+        "b": "O(m + n)",
+        "c": "O(n^2)",
+        "d": "O(m log n)",
+        "correct": "b",
+        "exp": "Dzięki przesuwaniu okna i sprawnemu obliczaniu wartości haszujących, oczekiwana złożoność to O(m + n)."
+    },
+    {
+        "id": 17,
+        "type": "multi",
+        "q": "Czym charakteryzuje się kopiec jako struktura danych? (wybierz poprawne cechy)",
+        "a": "Jest to pełne drzewo binarne na wszystkich poziomach z wyjątkiem najniższego",
+        "b": "Najniższy poziom wypełniony jest od strony lewej",
+        "c": "Największy element w max-kopcu znajduje się zawsze na samym dole",
+        "d": "W max-kopcu wartość węzła jest większa niż wartości jego dzieci",
+        "correct": "a,b,d",
+        "exp": "Kopiec to drzewo pełne wypełniane od lewej do prawej na dole. Największy element zawsze leży w jego korzeniu (na szczycie)."
+    },
+    {
+        "id": 18,
+        "type": "choice",
+        "q": "Gdzie w tablicowej reprezentacji kopca (z indeksowaniem zaczynającym się od 1) znajduje się korzeń?",
+        "a": "A[0]",
+        "b": "A[1]",
+        "c": "A[n]",
+        "d": "A[n/2]",
+        "correct": "b",
+        "exp": "W notatkach korzeń kopca znajduje się pod pozycją A[1]."
+    },
+    {
+        "id": 19,
+        "type": "choice",
+        "q": "Pod jakim indeksem w reprezentacji tablicowej kopca znajduje się lewe dziecko węzła i?",
+        "a": "i + 1",
+        "b": "i div 2",
+        "c": "2i",
+        "d": "2i + 1",
+        "correct": "c",
+        "exp": "Lewe dziecko jest dostępne pod indeksem 2i."
+    },
+    {
+        "id": 20,
+        "type": "choice",
+        "q": "Pod jakim indeksem w reprezentacji tablicowej kopca znajduje się prawe dziecko węzła i?",
+        "a": "2i + 1",
+        "b": "2i",
+        "c": "i div 2",
+        "d": "i * i",
+        "correct": "a",
+        "exp": "Prawe dziecko znajduje się pod indeksem 2i + 1."
+    },
+    {
+        "id": 21,
+        "type": "choice",
+        "q": "Pod jakim indeksem w reprezentacji tablicowej kopca znajduje się rodzic węzła i?",
+        "a": "2i",
+        "b": "i div 2",
+        "c": "i - 1",
+        "d": "i + 2",
+        "correct": "b",
+        "exp": "Aby znaleźć rodzica w tablicy, dzielimy indeks dziecka przez 2 całkowitoliczbowo (i div 2)."
+    },
+    {
+        "id": 22,
+        "type": "choice",
+        "q": "Kolejka jest strukturą danych typu:",
+        "a": "LIFO (Last In, First Out)",
+        "b": "FIFO (First In, First Out)",
+        "c": "FILO (First In, Last Out)",
+        "d": "Kopcem losowym",
+        "correct": "b",
+        "exp": "Kolejka działa jak w życiu – pierwszy w kolejce wychodzi jako pierwszy (First In, First Out)."
+    },
+    {
+        "id": 23,
+        "type": "choice",
+        "q": "W jaki sposób operacja 'push' działa w przypadku struktury jaką jest kolejka?",
+        "a": "Dodaje element na początek kolejki",
+        "b": "Dodaje element na koniec kolejki",
+        "c": "Usuwa element z końca",
+        "d": "Sortuje kolejkę malejąco",
+        "correct": "b",
+        "exp": "Nowe elementy za pomocą komendy 'push' dodaje się na sam koniec kolejki."
+    },
+    {
+        "id": 24,
+        "type": "choice",
+        "q": "Do czego służy operacja 'pop' w strukturze kolejki?",
+        "a": "Do dodania elementu na przód",
+        "b": "Do usunięcia elementu z końca kolejki",
+        "c": "Do usunięcia elementu z początku kolejki",
+        "d": "Do odczytania elementu bez usuwania go",
+        "correct": "c",
+        "exp": "Ponieważ jest to układ FIFO, 'pop' powoduje zdjęcie (usunięcie) pierwszego elementu czekającego na początku."
+    },
+    {
+        "id": 25,
+        "type": "choice",
+        "q": "Czym różni się ścieżka Hamiltona od cyklu Hamiltona?",
+        "a": "Cykl przechodzi przez każdą krawędź grafu dwukrotnie",
+        "b": "Ścieżka wymaga nieparzystej liczby wierzchołków",
+        "c": "Cykl wraca po odwiedzeniu wierzchołków do punktu początkowego",
+        "d": "Ścieżka odwiedza każdy wierzchołek wiele razy, a cykl raz",
+        "correct": "c",
+        "exp": "Ścieżka Hamiltona przechodzi przez wszystkie wierzchołki jeden raz, jeśli dodatkowo wróci z ostatniego do punktu startowego – tworzy cykl Hamiltona."
+    },
+    {
+        "id": 26,
+        "type": "choice",
+        "q": "Do jakiej klasy problemów należy problem znajdowania ścieżek/cykli Hamiltona?",
+        "a": "P",
+        "b": "NP-zupełnych",
+        "c": "Rozwiązywalnych w czasie liniowym",
+        "d": "Logarytmicznych",
+        "correct": "b",
+        "exp": "Zgodnie z materiałami, nie istnieje efektywny (wielomianowy) algorytm na ten problem we wszystkich przypadkach - należy on do problemów NP-zupełnych."
+    },
+    {
+        "id": 27,
+        "type": "choice",
+        "q": "Czym z definicji jest ścieżka Eulera?",
+        "a": "Ścieżką przechodzącą dokładnie jeden raz przez każdą krawędź grafu",
+        "b": "Ścieżką przechodzącą dokładnie raz przez każdy wierzchołek",
+        "c": "Najkrótszą drogą między dwoma wierzchołkami o stopniu 0",
+        "d": "Dowolnym drzewem w grafie rozpinającym",
+        "correct": "a",
+        "exp": "Ścieżka Eulera dotyczy przechodzenia wszystkich KRAWĘDZI dokładnie jeden raz."
+    },
+    {
+        "id": 28,
+        "type": "choice",
+        "q": "Jakie warunki musi spełniać graf, by mogła w nim istnieć Ścieżka Eulera?",
+        "a": "Każdy wierzchołek musi mieć stopień nieparzysty",
+        "b": "Musi być spójny i każdy jego wierzchołek za wyjątkiem dwóch musi posiadać parzysty stopień",
+        "c": "Nie może posiadać żadnego wierzchołka o stopniu większym niż 2",
+        "d": "Musi być kompletnym grafem skierowanym",
+        "correct": "b",
+        "exp": "Aby można było 'narysować' figurę (graf) bez odrywania ołówka, dozwolone są co najwyżej dwa wierzchołki (start i meta) o nieparzystej ilości wejść/wyjść."
+    },
+    {
+        "id": 29,
+        "type": "choice",
+        "q": "Czym charakteryzuje się Cykl Eulera?",
+        "a": "Odwiedza każdy wierzchołek raz i kończy tam gdzie zaczął",
+        "b": "Przechodzi przez wszystkie krawędzie grafu jeden raz i kończy się w wierzchołku startowym",
+        "c": "Używa algorytmu sortowania do wyboru optymalnej drogi",
+        "d": "Posiada tylko krawędzie o ujemnej wadze",
+        "correct": "b",
+        "exp": "Cykl to z definicji trasa powracająca do miejsca startu. W przypadku Eulera powraca, odwiedziwszy po drodze wszystkie krawędzie (bez powtórzeń)."
+    },
+    {
+        "id": 30,
+        "type": "choice",
+        "q": "Jaki warunek musi spełniać graf, by posiadał w sobie Cykl Eulera?",
+        "a": "Graf musi być spójny oraz KAŻDY jego wierzchołek musi posiadać stopień parzysty",
+        "b": "Graf musi posiadać dokładnie dwa wierzchołki nieparzyste",
+        "c": "Liczba krawędzi musi być równa liczbie wierzchołków",
+        "d": "Każda waga krawędzi musi wynosić 1",
+        "correct": "a",
+        "exp": "Cykl wraca tam skąd wyruszył – aby to było możliwe na wszystkich krawędziach, każdy napotkany wierzchołek musi służyć jedynie do wejścia i od razu wyjścia (parzysty stopień)."
+    },
+    {
+        "id": 31,
+        "type": "choice",
+        "q": "Opisz ideę algorytmu Boyera-Moore'a:",
+        "a": "Wyszukuje wzorzec w tekście opierając się na analizie od początku i odrzucając tylko po jednej literze",
+        "b": "Znajduje MST za pomocą kolejki priorytetowej",
+        "c": "Wyszukuje wzorzec w tekście; tworzy tablicę przesunięć i porównuje z tekstem od ostatniego znaku wzorca",
+        "d": "Jest rodzajem haszowania wykorzystywanego w kryptografii",
+        "correct": "c",
+        "exp": "Boyera-Moore to bardzo sprytny algorytm tekstu. Porównuje wzorzec od końca i dzięki tablicy przesunięć skacze o duże bloki do przodu jeśli trafia na złe znaki."
+    },
+    {
+        "id": 32,
+        "type": "choice",
+        "q": "Co powstaje w wyniku działania algorytmu Dijkstry?",
+        "a": "Minimalne drzewo rozpinające złączone z krawędzi grafu",
+        "b": "Minimalne koszty dojścia z ustalonego wierzchołka początkowego do wszystkich pozostałych wierzchołków",
+        "c": "Sortowanie leksykograficzne elementów w grafie",
+        "d": "Lista jednokierunkowa składająca się z wag krawędzi",
+        "correct": "b",
+        "exp": "Algorytm Dijkstry szuka najkrótszej, najtańszej drogi z jednego punktu, wyliczając jej koszt dla każdego innego połączonego punktu."
+    },
+    {
+        "id": 33,
+        "type": "multi",
+        "q": "Zaznacz wszystkie podstawowe rodzaje list opisane w notatkach:",
+        "a": "Jednokierunkowa",
+        "b": "Dwukierunkowa",
+        "c": "Jednokierunkowa Cykliczna",
+        "d": "Dwukierunkowa Cykliczna",
+        "correct": "a,b,c,d",
+        "exp": "Wszystkie wymienione warianty list dynamicznych są powszechnie stosowanymi rodzajami na egzaminie."
+    },
+    {
+        "id": 34,
+        "type": "choice",
+        "q": "Czym w swej naturze jest drzewo BST (Binary Search Tree)?",
+        "a": "Złożonym stosem o wielu wejściach",
+        "b": "Kolejką typu FIFO",
+        "c": "Drzewem binarnym pozwalającym na szybkie wyszukiwanie podanego elementu",
+        "d": "Cyklem Eulera przekształconym w graf",
+        "correct": "c",
+        "exp": "BST ułatwia szybkie wyszukiwanie poprzez rygorystyczne zasady układania potomków lewych (mniejszych) i prawych (większych)."
+    },
+    {
+        "id": 35,
+        "type": "choice",
+        "q": "Jaka reguła obowiązuje dla węzła y, znajdującego się w lewym poddrzewie węzła x w BST?",
+        "a": "Klucz(y) > Klucz(x)",
+        "b": "Klucz(y) < Klucz(x)",
+        "c": "Klucz(y) == Klucz(x)",
+        "d": "Zależność kluczy jest kompletnie losowa",
+        "correct": "b",
+        "exp": "W drzewie poszukiwań (BST) wszystko co jest 'na lewo', jest mniejsze od ojca."
+    },
+    {
+        "id": 36,
+        "type": "choice",
+        "q": "Jaka reguła obowiązuje dla węzła y, znajdującego się w prawym poddrzewie węzła x w BST?",
+        "a": "Klucz(y) < Klucz(x)",
+        "b": "Klucz(y) == Klucz(x)",
+        "c": "Klucz(y) > Klucz(x)",
+        "d": "Klucz potomka musi być zawsze o 1 większy",
+        "correct": "c",
+        "exp": "W drzewie poszukiwań (BST) wszystko co jest 'na prawo', jest większe od ojca."
+    },
+    {
+        "id": 37,
+        "type": "choice",
+        "q": "Jakiego typu strukturą danych jest stos?",
+        "a": "FIFO",
+        "b": "Grafem skierowanym",
+        "c": "LIFO (Last In, First Out)",
+        "d": "Tablicą z haszowaniem",
+        "correct": "c",
+        "exp": "Na stos odkładamy rzeczy jedna na drugą. Ta dodana jako ostatnia (na samą górę), będzie z niego zdjęta jako pierwsza."
+    },
+    {
+        "id": 38,
+        "type": "choice",
+        "q": "Do czego służy operacja 'push' w przypadku pracy ze stosem?",
+        "a": "Do usunięcia elementu ze szczytu",
+        "b": "Do przejrzenia całej jego struktury",
+        "c": "Do umieszczenia elementu na szczycie stosu",
+        "d": "Do dodania elementu na samo jego dno",
+        "correct": "c",
+        "exp": "Push = wepchnięcie (odłożenie) nowej rzeczy na szczyt stosu."
+    },
+    {
+        "id": 39,
+        "type": "choice",
+        "q": "Jak wywołać procedurę usuwania i zdjęcia elementu ze szczytu stosu?",
+        "a": "Wywołując 'pop'",
+        "b": "Wywołując 'first'",
+        "c": "Wywołując 'top'",
+        "d": "Wywołując 'delete_all'",
+        "correct": "a",
+        "exp": "Pop (ang. wyskoczyć) pozwala zdjąć z wierzchołka najwyższy element."
+    },
+    {
+        "id": 40,
+        "type": "choice",
+        "q": "Do czego służy operacja 'top' wywoływana na strukturze stosu?",
+        "a": "Rozbija stos na dwa mniejsze",
+        "b": "Zwraca i usuwa pierwszy element",
+        "c": "Służy do odczytania elementu ze szczytu stosu, bez jego usuwania",
+        "d": "Kopiuje zawartość stosu do pamięci cache",
+        "correct": "c",
+        "exp": "Peek lub top pozwala nam jedynie „zajrzeć” na wierzch stosu, pozostawiając go w niezmienionej formie."
+    },
+    {
+        "id": 41,
+        "type": "choice",
+        "q": "Jak w uproszczeniu można zdefiniować Listę w strukturach danych?",
+        "a": "Sztywny wektor o z góry określonym stałym rozmiarze",
+        "b": "Zbiór zmiennych trzymanych na twardym dysku komputera",
+        "c": "Drzewo z tylko i wyłącznie prawymi poddrzewami",
+        "d": "Liniowo uporządkowany zbiór elementów, do którego w dowolne miejsce można wstawić i usunąć element",
+        "correct": "d",
+        "exp": "W odróżnieniu od prostej tablicy z góry narzuconej pamięci, struktura listowa pozwala manipulować połączeniami by wkładać rzeczy wepchnięte 'w środek'."
+    },
+    {
+        "id": 42,
+        "type": "choice",
+        "q": "Co powstaje w wyniku poprawnego działania algorytmu Prima na podanym grafie?",
+        "a": "Minimalne drzewo rozpinające dla grafu spójnego i ważonego",
+        "b": "Najkrótsza droga od źródła do konkretnego jednego wybranego węzła",
+        "c": "Trzy osobne kopce priorytetowe",
+        "d": "Posortowany wektor wag",
+        "correct": "a",
+        "exp": "Algorytm Prima służy do złączenia wszystkich wierzchołków grafu w jedno, minimalne kosztowo drzewo."
+    },
+    {
+        "id": 43,
+        "type": "choice",
+        "q": "Algorytm sortowania typu 0-1 (np. używany do segregacji cech). Według notatek, jak będzie wyglądała tablica z danymi, które ten algorytm miał podzielić na liczby podzielne przez 3 i niepodzielne przez 3?",
+        "a": "Najpierw zostaną ułożone elementy niepodzielne przez 3, a za nimi podzielne",
+        "b": "Najpierw zostaną ustawione liczby podzielne przez 3, a w dalszej części tablicy te niepodzielne",
+        "c": "Liczby zostaną rygorystycznie ułożone rosnąco niezależnie od podzielności",
+        "d": "Liczby zostaną wymieszane algorytmem randomizacji",
+        "correct": "b",
+        "exp": "W zadaniu z egzaminu, warunkiem początkowym '0' algorytmu jest zazwyczaj wymóg np. podzielności. Te elementy lądują na froncie tabeli."
+    },
+    {
+        "id": 44,
+        "type": "multi",
+        "q": "Do czego służy funkcja 'isEmpty' występująca m.in w stosach lub kolejkach?",
+        "a": "Sprawdza, czy pamięć RAM nie uległa przepełnieniu",
+        "b": "Zwraca wartość logiczną prawda (True), gdy wewnątrz struktury nie ma żadnych obiektów",
+        "c": "Zwraca fałsz, gdy jest w niej choć jeden element",
+        "d": "Opróżnia całkowicie zawartość struktury",
+        "correct": "b,c",
+        "exp": "Funkcja jest po prostu pytaniem: 'czy jest tam pusto?'. Zwraca prawda, gdy nie ma nic; fałsz, gdy cokolwiek się znajduje."
+    },
+    {
+        "id": 45,
+        "type": "choice",
+        "q": "Gdy masz przed sobą stos, oraz odpalisz komendę 'pop' na zupełnie pustym stosie, to zazwyczaj co powinno się wydarzyć?",
+        "a": "Otrzymamy błąd przepełnienia w dół (tzw. underflow / null pointer)",
+        "b": "Pojawi się wartość początkowa domyślna",
+        "c": "Stos automatycznie wygeneruje nowy obiekt",
+        "d": "Wyskoczy komunikat o ukończeniu algorytmu",
+        "correct": "a",
+        "exp": "Nie można usunąć elementu, gdy niczego tam nie ma. Próba wykonania pop na pustym stosie to znany w informatyce Underflow."
+    },
+    {
+        "id": 46,
+        "type": "choice",
+        "q": "Który z podanych niżej algorytmów na zbiorze o rozmiarze n wymaga w pesymistycznym i typowym przypadku rzędu złożoności O(n^2)?",
+        "a": "Karpa-Rabina",
+        "b": "Sortowanie przez Wybieranie (SelectionSort)",
+        "c": "Wyszukiwanie Binarne",
+        "d": "Sortowanie QuickSort",
+        "correct": "b",
+        "exp": "Przez wybieranie analizujemy tablicę 'każdy z każdym', co dla typowych prostych algorytmów zawsze kręci się wokół mocy kwadratowej n^2."
+    },
+    {
+        "id": 47,
+        "type": "choice",
+        "q": "Jak należy skonstruować graf spójny, aby miał szansę w ogóle posiadać cykl Eulera?",
+        "a": "Dodać do każdego punktu po 1 drodze",
+        "b": "Zapewnić, aby nie posiadał żadnych wierzchołków o nieparzystym stopniu krawędzi (wszystkie muszą być parzyste)",
+        "c": "Upewnić się, że to cykl z maksymalnie 2 wierzchołkami nieparzystymi",
+        "d": "Dowolnie, byle wagi wynosiły mniej niż zero",
+        "correct": "b",
+        "exp": "Podstawowe prawo Teorii Grafów: cykl Eulera istnieje zawsze i tylko wtedy, gdy żaden z wierzchołków grafu spójnego nie posiada nieparzystej liczby wychodzących z niego krawędzi."
+    },
+    {
+        "id": 48,
+        "type": "choice",
+        "q": "Gdy budujesz drzewo BST i otrzymujesz kolejne wartości [15, 10, 20, 8, 12], jak ustawi się wartość '8' względem korzenia 15?",
+        "a": "Będzie prawym dzieckiem 10, w prawym poddrzewie 15",
+        "b": "Będzie lewym dzieckiem 10, głęboko w lewym poddrzewie 15",
+        "c": "Zostanie nowym korzeniem na szczycie",
+        "d": "Zamieni miejscami 20 i 10",
+        "correct": "b",
+        "exp": "Zasady BST: 8 < 15, więc idzie w lewo; 8 < 10, więc od 10 idzie znowu w lewo jako jego lewe dziecko."
+    },
+    {
+        "id": 49,
+        "type": "choice",
+        "q": "Dla algorytmu Boyera-Moore'a budowana jest specjalna struktura pomocnicza przed wyszukiwaniem. Czym ona jest?",
+        "a": "Funkcją Haszującą dla tekstu",
+        "b": "Drzewem rozpinającym znaków alfabetu",
+        "c": "Tablicą przesunięć (regułą dobrego sufiksu i złego znaku)",
+        "d": "Kolejką FIFO zawierającą litery i białe spacje",
+        "correct": "c",
+        "exp": "Główną i najsilniejszą cechą algorytmu BM jest wykorzystanie utworzonej wcześniej tablicy przesunięć pozwalających uniknąć testowania liter niemożliwych z góry."
+    },
+    {
+        "id": 50,
+        "type": "choice",
+        "q": "Z notatki dowiadujemy się, jak zbudowana jest struktura kopca w pamięci ciągłej (tablica). Jeżeli element A[3] w tablicy to korzeń prawego poddrzewa głównego, to pod jakim indeksem ma on lewe dziecko?",
+        "a": "A[4]",
+        "b": "A[5]",
+        "c": "A[6]",
+        "d": "A[7]",
+        "correct": "c",
+        "exp": "Wzór to Lewe=2i. Skoro i=3, to lewe dziecko to 2*3 = 6. Znajdzie się ono więc pod indeksem A[6]."
+    },
+    {
+        "id": 51,
+        "type": "multi",
+        "q": "Poniżej przedstawiono zbiór twierdzeń na temat struktur Stosu (Stack) i Kolejki (Queue). Zaznacz wszystkie poprawne zdania określające ich cechy i dozwolone operacje:",
+        "a": "Stos to struktura LIFO (Last In, First Out), a kolejka to struktura FIFO (First In, First Out)",
+        "b": "Kolejka to struktura LIFO (Last In, First Out), a stos to struktura FIFO (First In, First Out)",
+        "c": "W stosie operacja 'push' dodaje element na jego spód, a w kolejce na sam środek",
+        "d": "W kolejce operacja 'pop' usuwa element zawsze z jej początku",
+        "e": "W stosie operacja 'top' odczytuje element ze szczytu, a w kolejce operacja 'first' odczytuje element z początku",
+        "f": "Zarówno w stosie, jak i w kolejce dozwolona jest i powszechnie stosowana operacja 'isEmpty'",
+        "g": "Operacja 'push' wywołana na stosie zdejmuje z niego najwyższy element",
+        "h": "Nowe elementy do kolejki dodaje się na jej początek, a usuwa z końca (zgodnie z logiką LIFO)",
+        "correct": "a,d,e,f",
+        "exp": "Stos to LIFO (kładziemy na szczyt operacją push, zdejmujemy ze szczytu operacją pop, czytamy szczyt operacją top). Kolejka to FIFO (nowi stają na koniec operacją push, a obsłużeni wychodzą z początku operacją pop, czytamy pierwszego operacją first). W obu badamy czy są puste za pomocą isEmpty."
+    },
+    {
+        "id": 52,
+        "type": "multi",
+        "q": "Wskaż wszystkie poprawne rodzaje list, które powszechnie implementuje się w strukturach danych:",
+        "a": "Lista jednokierunkowa",
+        "b": "Lista dwukierunkowa",
+        "c": "Lista trójkierunkowa (wymiarowa)",
+        "d": "Lista cykliczna jednokierunkowa",
+        "e": "Lista cykliczna dwukierunkowa",
+        "f": "Lista drzewiasta (rozgałęziona hybrydowa)",
+        "correct": "a,b,d,e",
+        "exp": "Wyróżnia się podstawowe rodzaje list: jednokierunkową, dwukierunkową oraz ich wersje połączone w zamknięty pierścień, czyli cykliczne (cykliczną jednokierunkową i cykliczną dwukierunkową)."
+    },
+    {
+        "id": 53,
+        "type": "choice",
+        "q": "Jak działa algorytm typu 0-1 (np. podział tablicy na liczby podzielne przez 3 i niepodzielne przez 3) i jaka jest jego złożoność obliczeniowa?",
+        "a": "Rekurencyjnie dzieli tablicę na pół do momentu uzyskania pojedynczych elementów; złożoność to O(n log n)",
+        "b": "Dzieli zbiór na dwie określone grupy przeglądając tablicę jeden raz od skrajnych indeksów; złożoność to O(n)",
+        "c": "Porównuje ze sobą sąsiadujące elementy i zamienia je miejscami aż do pełnego posortowania; złożoność to O(n^2)",
+        "d": "Umieszcza każdą wartość w osobnej komórce pamięci haszowanej za pomocą funkcji skrótu; złożoność to O(1)",
+        "correct": "b",
+        "exp": "Algorytm 0-1 przechodzi przez elementy jednokrotnie (liniowo w czasie O(n)), pozycjonując odpowiednio z lewej strony elementy spełniające zadany warunek (np. podzielność przez 3), a z prawej te, które go nie spełniają."
+    },
+    {
+        "id": 54,
+        "type": "choice",
+        "q": "Należy zbudować macierz sąsiedztwa dla zadanego grafu SKIEROWANEGO. Zbiór wierzchołków V={1, 2, 3, 4, 5}, a zbiór krawędzi E={(1,4), (1,5), (2,4)}. W których komórkach macierzy (wiersz, kolumna) należy wpisać wartość '1'?",
+        "a": "Tylko w komórkach: (1,4), (1,5) oraz (2,4)",
+        "b": "Tylko w komórkach: (4,1), (5,1) oraz (4,2)",
+        "c": "W komórkach: (1,4), (4,1), (1,5), (5,1), (2,4) oraz (4,2)",
+        "d": "Na całej głównej przekątnej macierzy",
+        "correct": "a",
+        "exp": "Dla grafu skierowanego krawędź (u, v) oznacza umieszczenie jedynki tylko i wyłącznie na przecięciu wiersza 'u' (start) i kolumny 'v' (meta). Macierz ta z definicji nie będzie symetryczna wzdłuż przekątnej, wpisujemy więc '1' dokładnie i tylko tam, gdzie prowadzą strzałki krawędzi zbioru E."
+    },
+    {
+        "id": 55,
+        "type": "choice",
+        "q": "Podczas egzaminu musisz narysować drzewo BST z elementów wprowadzanych kolejno: 62, 123, 11, 111, 40, 5. Na jakiej pozycji w finalnym drzewie wyląduje węzeł o wartości 111?",
+        "a": "Jako prawe dziecko węzła 62",
+        "b": "Jako prawe dziecko węzła 11",
+        "c": "Jako lewe dziecko węzła 123",
+        "d": "Jako lewe dziecko węzła 40",
+        "correct": "c",
+        "exp": "Zgodnie z zasadami BST: 62 to korzeń. 123 to prawe dziecko 62 (bo 123 > 62). Kiedy dochodzimy do liczby 111: sprawdzamy z 62 (idzie w prawo, bo 111 > 62), następnie sprawdzamy z 123 (idzie w lewo, bo 111 < 123). Liczba 111 ląduje więc jako lewe dziecko 123."
+    },
+    {
+        "id": 56,
+        "type": "choice",
+        "q": "Budujemy kolejne drzewo BST wprowadzając elementy dokładnie w tej kolejności: 55, 123, 78, 31, 19, 110. Gdzie w tym przypadku zostanie doczepiony element oznaczony liczbą 110?",
+        "a": "Jako prawe dziecko węzła 78",
+        "b": "Jako lewe dziecko węzła 123",
+        "c": "Jako prawe dziecko węzła 123",
+        "d": "Jako lewe dziecko węzła 31",
+        "correct": "a",
+        "exp": "Proces idzie następująco: Korzeń = 55. Węzeł 123 idzie w prawo (123 > 55). Węzeł 78 idzie w prawo od 55 (78 > 55) i w lewo od 123 (78 < 123). Kiedy wchodzi 110: 110 > 55 (prawo), 110 < 123 (lewo, do 78), 110 > 78 (idzie na prawo od 78). Węzeł 110 ląduje jako prawe dziecko węzła 78."
+    }
+];
+
+// Ensure every question has an explanation (fill missing ones)
+        questionBank.forEach(q => {
+            if (!q.exp || (typeof q.exp === 'string' && q.exp.trim() === '')) q.exp = 'Brak wyjaśnienia.';
+        });
+
+        // Helper: return available choice keys for a question
+        function getChoiceKeys(q) {
+            return Object.keys(q)
+                .filter(key => key !== 'q' && /^[a-z]$/i.test(key) && q[key] !== undefined && q[key] !== null && String(q[key]).trim() !== '')
+                .sort((left, right) => left.localeCompare(right, 'pl', { sensitivity: 'base' }));
+        }
+
+        function getChoiceOptionClasses(isSelected, useCompactGrid) {
+            if (useCompactGrid) {
+                return isSelected
+                    ? "w-full min-h-24 rounded-xl border border-blue-500 bg-blue-50 dark:bg-blue-900/30 p-3 text-left flex flex-col items-start justify-between gap-2 transition-all font-semibold"
+                    : "w-full min-h-24 rounded-xl border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 p-3 text-left flex flex-col items-start justify-between gap-2 transition-all font-medium hover:bg-slate-50 dark:hover:bg-slate-700/50";
+            }
+
+            return isSelected
+                ? "w-full text-left p-4 rounded-xl border border-blue-500 bg-blue-50 dark:bg-blue-900/30 font-semibold flex items-center space-x-3"
+                : "w-full text-left p-4 rounded-xl border border-slate-200 dark:border-slate-700 hover:bg-slate-50 dark:hover:bg-slate-700/50 transition-all font-medium flex items-center space-x-3";
+        }
+
+        function getChoiceBadgeClasses(isSelected, useCompactGrid) {
+            if (useCompactGrid) {
+                return isSelected
+                    ? "w-7 h-7 rounded-md flex items-center justify-center font-bold shrink-0 bg-blue-600 text-white text-xs"
+                    : "w-7 h-7 rounded-md flex items-center justify-center font-bold shrink-0 bg-slate-100 dark:bg-slate-700 text-slate-500 text-xs";
+            }
+
+            return isSelected
+                ? "w-8 h-8 rounded-lg flex items-center justify-center font-bold shrink-0 bg-blue-600 text-white"
+                : "w-8 h-8 rounded-lg flex items-center justify-center font-bold shrink-0 bg-slate-100 dark:bg-slate-700 text-slate-500";
+        }
+
+        function getCorrectAnswers(q) {
+            return String(q.correct || '')
+                .split(',')
+                .map(part => part.trim())
+                .filter(Boolean);
+        }
+
+        function isMultiChoiceQuestion(q) {
+            return q.type === 'multi' || q.type === 'multiple' || getCorrectAnswers(q).length > 1;
+        }
+
+        function normalizeAnswerList(answer) {
+            return String(answer || '')
+                .split(',')
+                .map(part => part.trim())
+                .filter(Boolean)
+                .sort();
+        }
+
+        function isAnswerCorrect(q, answer) {
+            const correctAnswers = getCorrectAnswers(q).sort();
+            if (isMultiChoiceQuestion(q)) {
+                return normalizeAnswerList(answer).join(',') === correctAnswers.join(',');
+            }
+
+            return normalizeAnswerList(answer)[0] === correctAnswers[0];
+        }
+
+        function formatAnswerText(q, answer) {
+            if (isMultiChoiceQuestion(q)) {
+                const answers = normalizeAnswerList(answer);
+                if (answers.length === 0) {
+                    return 'Brak odpowiedzi';
+                }
+
+                return answers.map(key => `${key.toUpperCase()}) ${escapeHtml(q[key])}`).join(', ');
+            }
+
+            if (!answer) {
+                return 'Brak odpowiedzi';
+            }
+
+            return `${String(answer).toUpperCase()}) ${escapeHtml(q[answer])}`;
+        }
+
+        // Fisher-Yates shuffle
+        function shuffleArray(arr) {
+            for (let i = arr.length - 1; i > 0; i--) {
+                const j = Math.floor(Math.random() * (i + 1));
+                [arr[i], arr[j]] = [arr[j], arr[i]];
+            }
+            return arr;
+        }
+
+        // State variables
+        let studyIndex = 0;
+        let studyRandom = false;
+        let studyOrder = Array.from(Array(questionBank.length).keys()); // indices
+        let studyOrderPos = 0;
+        let studyMultiSelections = {};
+        let examState = {
+            active: false,
+            questions: [],
+            currentIndex: 0,
+            answers: {},
+            timer: null,
+            timeRemaining: 0,
+            timeLimit: 0
+        };
+
+        // Initialize App on load
+        window.onload = function() {
+            initProgress();
+            switchTab('dashboard');
+            loadStudyQuestion();
+            loadBrowseDatabase();
+            loadStarredQuestions();
+            
+            // Check system preferences for theme
+            if (localStorage.theme === 'dark' || (!('theme' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+                document.documentElement.classList.add('dark');
+                document.getElementById('theme-sun').classList.remove('hidden');
+            } else {
+                document.documentElement.classList.remove('dark');
+                document.getElementById('theme-moon').classList.remove('hidden');
+            }
+
+            // Theme toggle listener
+            document.getElementById('theme-toggle').onclick = function() {
+                if (document.documentElement.classList.contains('dark')) {
+                    document.documentElement.classList.remove('dark');
+                    localStorage.theme = 'light';
+                    document.getElementById('theme-sun').classList.add('hidden');
+                    document.getElementById('theme-moon').classList.remove('hidden');
+                } else {
+                    document.documentElement.classList.add('dark');
+                    localStorage.theme = 'dark';
+                    document.getElementById('theme-moon').classList.add('hidden');
+                    document.getElementById('theme-sun').classList.remove('hidden');
+                }
+            };
+        };
+
+        // Navigation Switching Handler
+        function switchTab(tabName) {
+            const sections = ['sec-dashboard', 'sec-study', 'sec-exam', 'sec-browse', 'sec-starred'];
+            const navButtons = {
+                'dashboard': 'nav-dashboard',
+                'study': 'nav-study',
+                'exam': 'nav-exam',
+                'browse': 'nav-browse',
+                'starred': 'nav-starred'
+            };
+
+            // Hide all sections
+            sections.forEach(sec => document.getElementById(sec).classList.add('hidden'));
+            
+            // Show selected section
+            document.getElementById(`sec-${tabName}`).classList.remove('hidden');
+
+            // Reset navigation button styles
+            Object.keys(navButtons).forEach(key => {
+                const btn = document.getElementById(navButtons[key]);
+                if (key === tabName) {
+                    btn.className = "w-full flex items-center space-x-3 px-3 py-2.5 text-sm font-medium rounded-xl transition-all bg-blue-50 text-blue-600 dark:bg-blue-900/30 dark:text-blue-400";
+                } else {
+                    btn.className = "w-full flex items-center space-x-3 px-3 py-2.5 text-sm font-medium rounded-xl transition-all text-slate-600 dark:text-slate-400 hover:bg-slate-50 dark:hover:bg-slate-700/50";
+                }
+            });
+
+            // Trigger math rendering
+            if (typeof MathJax !== 'undefined') {
+                MathJax.typesetPromise();
+            }
+        }
+
+        // Setup Event Listeners for menu buttons
+        document.getElementById('nav-dashboard').onclick = () => switchTab('dashboard');
+        document.getElementById('nav-study').onclick = () => switchTab('study');
+        document.getElementById('nav-exam').onclick = () => switchTab('exam');
+        document.getElementById('nav-browse').onclick = () => switchTab('browse');
+        document.getElementById('nav-starred').onclick = () => switchTab('starred');
+
+        // Progress & Statistics Core Logic
+        function initProgress() {
+            let userStats = JSON.parse(localStorage.getItem('networks_userStats')) || {
+                solved: {},
+                correctCount: 0,
+                wrongCount: 0,
+                stars: []
+            };
+            localStorage.setItem('networks_userStats', JSON.stringify(userStats));
+            updateProgressDOM();
+        }
+
+        function updateProgressDOM() {
+            const stats = JSON.parse(localStorage.getItem('networks_userStats'));
+            const totalQuestions = questionBank.length;
+            const solvedCount = Object.keys(stats.solved).length;
+            
+            document.getElementById('stat-solved').innerText = `${solvedCount} / ${totalQuestions}`;
+            
+            const totalAttempts = stats.correctCount + stats.wrongCount;
+            const accuracy = totalAttempts > 0 ? Math.round((stats.correctCount / totalAttempts) * 100) : 0;
+            document.getElementById('stat-accuracy').innerText = `${accuracy}%`;
+
+            const percent = Math.round((solvedCount / totalQuestions) * 100);
+            document.getElementById('stat-progress-bar').style.width = `${percent}%`;
+        }
+
+        function toggleStar(id) {
+            let stats = JSON.parse(localStorage.getItem('networks_userStats'));
+            if (stats.stars.includes(id)) {
+                stats.stars = stats.stars.filter(starId => starId !== id);
+                showToast("Pytanie usunięte z ulubionych");
+            } else {
+                stats.stars.push(id);
+                showToast("Pytanie dodane do ulubionych");
+            }
+            localStorage.setItem('networks_userStats', JSON.stringify(stats));
+            loadStarredQuestions();
+            
+            // Re-render current question views if active
+            if (!document.getElementById('sec-study').classList.contains('hidden')) {
+                loadStudyQuestion();
+            }
+        }
+
+        function resetStats() {
+            if (confirm("Czy na pewno chcesz zresetować wszystkie statystyki, historię odpowiedzi i ulubione pytania?")) {
+                localStorage.removeItem('networks_userStats');
+                initProgress();
+                studyIndex = 0;
+                loadStudyQuestion();
+                loadStarredQuestions();
+                showToast("Wszystkie postępy zostały zresetowane.");
+                switchTab('dashboard');
+            }
+        }
+
+        function showToast(msg) {
+            const toast = document.getElementById('toast');
+            document.getElementById('toast-msg').innerText = msg;
+            toast.classList.remove('translate-y-20');
+            toast.classList.add('translate-y-0');
+            setTimeout(() => {
+                toast.classList.remove('translate-y-0');
+                toast.classList.add('translate-y-20');
+            }, 2500);
+        }
+
+        // ==========================================
+        // STUDY MODE ENGINE
+        // ==========================================
+        function loadStudyQuestion() {
+            const card = document.getElementById('study-card');
+            const q = questionBank[studyIndex];
+            const stats = JSON.parse(localStorage.getItem('networks_userStats'));
+            const isStarred = stats.stars.includes(q.id);
+            const multiChoice = isMultiChoiceQuestion(q);
+            studyMultiSelections[q.id] = [];
+            const savedStudyAnswer = studyMultiSelections[q.id] || [];
+            let optionsHTML = '';
+            if (q.type === 'choice' || multiChoice) {
+                const keys = getChoiceKeys(q);
+                // create array of {k,text} and shuffle display order
+                const opts = shuffleArray(keys.map(k => ({ k, text: q[k] })));
+                const useCompactGrid = opts.length > 4;
+
+                if (multiChoice) {
+                    optionsHTML = `
+                        <div class="${useCompactGrid ? 'grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-3' : 'space-y-3'}">
+                            ${opts.map((opt, idx) => `
+                                <button onclick="toggleStudyMultiAnswer('${opt.k}')" id="opt-${opt.k}" class="${getChoiceOptionClasses(savedStudyAnswer.includes(opt.k), useCompactGrid)}" aria-pressed="${savedStudyAnswer.includes(opt.k)}">
+                                    <div class="flex items-center gap-2">
+                                        <span class="${getChoiceBadgeClasses(savedStudyAnswer.includes(opt.k), useCompactGrid)}">${String.fromCharCode(65 + idx)}</span>
+                                    </div>
+                                    <span class="${useCompactGrid ? 'text-sm leading-snug' : ''}">${escapeHtml(opt.text)}</span>
+                                </button>
+                            `).join('')}
+                        </div>
+                        <div class="flex items-center justify-between gap-3 pt-2">
+                            <p class="text-xs text-slate-400">Zaznacz wszystkie poprawne odpowiedzi, potem kliknij sprawdzenie.</p>
+                            <button onclick="checkStudyMultiAnswer()" class="bg-blue-600 hover:bg-blue-700 text-white font-semibold px-4 py-2.5 rounded-xl text-sm transition shadow-sm">Sprawdź odpowiedź</button>
+                        </div>
+                    `;
+                } else {
+                    optionsHTML = `
+                        <div class="${useCompactGrid ? 'grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-3' : 'space-y-3'}">
+                            ${opts.map((opt, idx) => `
+                                <button onclick="checkStudyAnswer('${opt.k}')" id="opt-${opt.k}" class="${getChoiceOptionClasses(false, useCompactGrid)}">
+                                    <div class="flex items-center gap-2">
+                                        <span class="${getChoiceBadgeClasses(false, useCompactGrid)}">${String.fromCharCode(65 + idx)}</span>
+                                    </div>
+                                    <span class="${useCompactGrid ? 'text-sm leading-snug' : ''}">${escapeHtml(opt.text)}</span>
+                                </button>
+                            `).join('')}
+                        </div>
+                    `;
+                }
+            } else if (q.type === 'open') {
+                optionsHTML = `
+                    <div class="space-y-4">
+                        <textarea id="open-answer" placeholder="Wpisz swoją odpowiedź lub przemyślenia..." rows="3" class="w-full p-4 border rounded-xl bg-slate-50 dark:bg-slate-700 border-slate-200 dark:border-slate-600 focus:outline-none focus:ring-2 focus:ring-blue-500 text-sm"></textarea>
+                        <div class="flex space-x-3">
+                            <button onclick="showOpenExplanation(true)" class="flex-1 bg-green-600 hover:bg-green-700 text-white font-semibold py-2.5 px-4 rounded-xl text-sm transition duration-150 shadow-sm">Znam odpowiedź / Pokaż wyjaśnienie</button>
+                            <button onclick="showOpenExplanation(false)" class="flex-1 bg-slate-200 dark:bg-slate-700 hover:bg-slate-300 dark:hover:bg-slate-600 text-slate-700 dark:text-slate-200 font-semibold py-2.5 px-4 rounded-xl text-sm transition duration-150">Pokaż wzorzec</button>
+                        </div>
+                    </div>
+                `;
+            }
+
+            card.innerHTML = `
+                <div class="flex items-center justify-between border-b pb-4 border-slate-100 dark:border-slate-700">
+                    <span class="text-xs font-bold text-slate-400 uppercase tracking-wide">Pytanie ${q.id} z ${questionBank.length}</span>
+                    <button onclick="toggleStar(${q.id})" class="text-slate-400 hover:text-amber-500 transition-colors">
+                        <svg class="w-6 h-6 ${isStarred ? 'text-amber-500 fill-current' : 'fill-none'}" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11.049 2.927c.3-.921 1.603-.921 1.902 0l1.519 4.674a1 1 0 00.95.69h4.915c.969 0 1.371 1.24.588 1.81l-3.976 2.888a1 1 0 00-.363 1.118l1.518 4.674c.3.922-.755 1.688-1.538 1.118l-3.976-2.888a1 1 0 00-1.176 0l-3.976 2.888c-.783.57-1.838-.197-1.538-1.118l1.518-4.674a1 1 0 00-.363-1.118l-3.976-2.888c-.784-.57-.38-1.81.588-1.81h4.914a1 1 0 00.951-.69l1.519-4.674z"></path>
+                        </svg>
+                    </button>
+                </div>
+
+                <div class="space-y-4">
+                    <p class="text-lg font-bold leading-snug">${escapeHtml(q.q)}</p>
+                    ${optionsHTML}
+                </div>
+
+                <!-- Explanation Box -->
+                <div id="study-exp" class="hidden mt-6 p-5 rounded-2xl bg-slate-50 dark:bg-slate-700/40 border-l-4 border-blue-500 text-slate-700 dark:text-slate-300 space-y-2">
+                    <p class="font-bold text-sm text-blue-600 dark:text-blue-400 uppercase tracking-wider">Wyjaśnienie i Komentarz:</p>
+                    <p class="text-sm leading-relaxed">${escapeHtml(q.exp)}</p>
+                </div>
+
+                <!-- Action Button Controls -->
+                <div class="flex justify-between items-center pt-4 border-t border-slate-100 dark:border-slate-700">
+                    <button onclick="prevStudyQuestion()" class="bg-slate-100 hover:bg-slate-200 dark:bg-slate-700 dark:hover:bg-slate-600 text-slate-800 dark:text-slate-200 font-semibold px-5 py-2.5 rounded-xl text-sm transition" ${studyIndex === 0 ? 'disabled' : ''}>Poprzednie</button>
+                    <button onclick="nextStudyQuestion()" class="bg-blue-600 hover:bg-blue-700 text-white font-semibold px-5 py-2.5 rounded-xl text-sm transition shadow-sm">Następne</button>
+                </div>
+            `;
+
+            if (typeof MathJax !== 'undefined') {
+                MathJax.typesetPromise();
+            }
+        }
+
+        function rebuildStudyOrder() {
+            studyOrder = shuffleArray(Array.from(Array(questionBank.length).keys()));
+            studyOrderPos = studyOrder.indexOf(studyIndex);
+            if (studyOrderPos === -1) {
+                studyOrderPos = 0;
+            }
+        }
+
+        function moveStudyQuestion(direction) {
+            if (studyRandom) {
+                rebuildStudyOrder();
+
+                const nextPos = direction === 'next'
+                    ? (studyOrderPos + 1) % studyOrder.length
+                    : (studyOrderPos - 1 + studyOrder.length) % studyOrder.length;
+
+                studyIndex = studyOrder[nextPos];
+                studyOrderPos = nextPos;
+                loadStudyQuestion();
+                return;
+            }
+
+            if (direction === 'next') {
+                if (studyIndex < questionBank.length - 1) {
+                    studyIndex++;
+                    loadStudyQuestion();
+                } else {
+                    showToast("Gratulacje! Przeszedłeś całą bazę pytań!");
+                }
+            } else if (direction === 'prev') {
+                if (studyIndex > 0) {
+                    studyIndex--;
+                    loadStudyQuestion();
+                }
+            }
+        }
+
+        function checkStudyAnswer(choice) {
+            const q = questionBank[studyIndex];
+            const keys = getChoiceKeys(q);
+            const correctAnswers = getCorrectAnswers(q);
+            const useCompactGrid = keys.length > 4;
+
+            // Highlight and disable only available options
+            keys.forEach(opt => {
+                const btn = document.getElementById(`opt-${opt}`);
+                if (!btn) return;
+                btn.disabled = true; // Disable further clicking
+                if (correctAnswers.includes(opt)) {
+                    btn.className = getChoiceOptionClasses(true, useCompactGrid).replace('border-blue-500 bg-blue-50 dark:bg-blue-900/30', 'border-green-500 bg-green-50 dark:bg-green-900/20 text-green-900 dark:text-green-300');
+                } else if (opt === choice) {
+                    btn.className = getChoiceOptionClasses(true, useCompactGrid).replace('border-blue-500 bg-blue-50 dark:bg-blue-900/30', 'border-red-500 bg-red-50 dark:bg-red-900/20 text-red-900 dark:text-red-300');
+                }
+            });
+
+            // Save state
+            updateQuestionHistory(q.id, isAnswerCorrect(q, choice));
+
+            // Display Explanation Box
+            document.getElementById('study-exp').classList.remove('hidden');
+        }
+
+        function toggleStudyMultiAnswer(choice) {
+            const q = questionBank[studyIndex];
+            const useCompactGrid = getChoiceKeys(q).length > 4;
+            const current = Array.isArray(studyMultiSelections[q.id]) ? [...studyMultiSelections[q.id]] : [];
+            studyMultiSelections[q.id] = current.includes(choice)
+                ? current.filter(item => item !== choice)
+                : [...current, choice];
+
+            getChoiceKeys(q).forEach(opt => {
+                const btn = document.getElementById(`opt-${opt}`);
+                if (!btn) return;
+
+                const selected = studyMultiSelections[q.id].includes(opt);
+                btn.className = getChoiceOptionClasses(selected, useCompactGrid);
+                btn.setAttribute('aria-pressed', String(selected));
+
+                const badge = btn.querySelector('span');
+                if (badge) {
+                    badge.className = getChoiceBadgeClasses(selected, useCompactGrid);
+                }
+            });
+        }
+
+        function checkStudyMultiAnswer() {
+            const q = questionBank[studyIndex];
+            const keys = getChoiceKeys(q);
+            const useCompactGrid = keys.length > 4;
+            const correctAnswers = getCorrectAnswers(q).sort();
+            const selectedAnswers = normalizeAnswerList(studyMultiSelections[q.id]);
+
+            keys.forEach(opt => {
+                const btn = document.getElementById(`opt-${opt}`);
+                if (!btn) return;
+                btn.disabled = true;
+                if (correctAnswers.includes(opt)) {
+                    btn.className = getChoiceOptionClasses(true, useCompactGrid).replace('border-blue-500 bg-blue-50 dark:bg-blue-900/30', 'border-green-500 bg-green-50 dark:bg-green-900/20 text-green-900 dark:text-green-300');
+                } else if (selectedAnswers.includes(opt)) {
+                    btn.className = getChoiceOptionClasses(true, useCompactGrid).replace('border-blue-500 bg-blue-50 dark:bg-blue-900/30', 'border-red-500 bg-red-50 dark:bg-red-900/20 text-red-900 dark:text-red-300');
+                }
+            });
+
+            updateQuestionHistory(q.id, selectedAnswers.join(',') === correctAnswers.join(','));
+            document.getElementById('study-exp').classList.remove('hidden');
+        }
+
+        function showOpenExplanation(isCorrect) {
+            updateQuestionHistory(questionBank[studyIndex].id, isCorrect);
+            document.getElementById('study-exp').classList.remove('hidden');
+        }
+
+        function updateQuestionHistory(id, isCorrect) {
+            let stats = JSON.parse(localStorage.getItem('networks_userStats'));
+            stats.solved[id] = true;
+            if (isCorrect) {
+                stats.correctCount++;
+            } else {
+                stats.wrongCount++;
+            }
+            localStorage.setItem('networks_userStats', JSON.stringify(stats));
+            updateProgressDOM();
+        }
+
+        function prevStudyQuestion() {
+            moveStudyQuestion('prev');
+        }
+
+        function nextStudyQuestion() {
+            moveStudyQuestion('next');
+        }
+
+        function jumpToStudyQuestion(num) {
+            const parsed = parseFloat(num);
+            if (parsed >= 1 && parsed <= 201) {
+                // Map question number to index
+                const targetIdx = questionBank.findIndex(q => q.id === parsed);
+                if (targetIdx !== -1) {
+                    studyIndex = targetIdx;
+                    studyMultiSelections = {};
+                    if (studyRandom) {
+                        const pos = studyOrder.indexOf(studyIndex);
+                        if (pos !== -1) studyOrderPos = pos;
+                    }
+                    loadStudyQuestion();
+                }
+            }
+        }
+
+        // Toggle shuffle for study mode
+        function toggleStudyShuffle(checked) {
+            studyRandom = !!checked;
+            if (studyRandom) {
+                rebuildStudyOrder();
+            } else {
+                studyOrder = Array.from(Array(questionBank.length).keys());
+                studyOrderPos = studyIndex;
+            }
+            showToast(studyRandom ? 'Włączono losową kolejność pytań' : 'Wyłączono losową kolejność pytań');
+        }
+
+        // ==========================================
+        // EXAM MODE ENGINE
+        // ==========================================
+        function startExam() {
+            const countVal = document.getElementById('exam-count').value;
+            const timeVal = document.getElementById('exam-time').value;
+
+            // Generate customized array of randomized questions
+            let shuffled = [...questionBank].sort(() => 0.5 - Math.random());
+            let qCount = countVal === 'all' ? questionBank.length : parseInt(countVal);
+            
+            examState.questions = shuffled.slice(0, qCount);
+            examState.currentIndex = 0;
+            examState.answers = {};
+            examState.active = true;
+
+            // Handle timer configuration
+            if (timeVal === 'no-limit') {
+                examState.timeLimit = 0;
+                document.getElementById('exam-timer-wrapper').classList.add('hidden');
+            } else {
+                examState.timeLimit = parseInt(timeVal) * 60;
+                examState.timeRemaining = examState.timeLimit;
+                document.getElementById('exam-timer-wrapper').classList.remove('hidden');
+                updateExamTimerDisplay();
+                
+                // Clear any existing timer
+                if (examState.timer) clearInterval(examState.timer);
+                examState.timer = setInterval(() => {
+                    examState.timeRemaining--;
+                    updateExamTimerDisplay();
+                    if (examState.timeRemaining <= 0) {
+                        clearInterval(examState.timer);
+                        finishExam(true);
+                    }
+                }, 1000);
+            }
+
+            document.getElementById('exam-setup').classList.add('hidden');
+            document.getElementById('exam-active').classList.remove('hidden');
+            loadExamQuestion();
+        }
+
+        function updateExamTimerDisplay() {
+            const mins = Math.floor(examState.timeRemaining / 60);
+            const secs = examState.timeRemaining % 60;
+            document.getElementById('exam-timer').innerText = `${mins.toString().padStart(2, '0')}:${secs.toString().padStart(2, '0')}`;
+        }
+
+        function loadExamQuestion() {
+            const card = document.getElementById('exam-question-card');
+            const q = examState.questions[examState.currentIndex];
+            const savedAns = examState.answers[q.id];
+            const multiChoice = isMultiChoiceQuestion(q);
+
+            document.getElementById('exam-progress-badge').innerText = `Pytanie ${examState.currentIndex + 1} / ${examState.questions.length}`;
+
+            let inputHTML = '';
+            if (q.type === 'choice' || multiChoice) {
+                const keys = getChoiceKeys(q);
+                const opts = shuffleArray(keys.map(k => ({ k, text: q[k] })));
+                const useCompactGrid = opts.length > 4;
+
+                if (multiChoice) {
+                    const savedMulti = Array.isArray(savedAns) ? savedAns : [];
+                    inputHTML = `
+                        <div class="${useCompactGrid ? 'grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-3' : 'space-y-3'}">
+                            ${opts.map((opt, idx) => {
+                                const isSelected = savedMulti.includes(opt.k);
+                                return `
+                                    <button onclick="toggleExamAnswer('${opt.k}')" class="${getChoiceOptionClasses(isSelected, useCompactGrid)}" id="exam-opt-${opt.k}" aria-pressed="${isSelected}">
+                                        <div class="flex items-center gap-2">
+                                            <span class="${getChoiceBadgeClasses(isSelected, useCompactGrid)}">${String.fromCharCode(65 + idx)}</span>
+                                            ${!useCompactGrid ? '<span class="text-[11px] uppercase tracking-wider text-slate-400 dark:text-slate-500">Wybór</span>' : ''}
+                                        </div>
+                                        <span class="${useCompactGrid ? 'text-sm leading-snug' : ''}">${escapeHtml(opt.text)}</span>
+                                    </button>
+                                `;
+                            }).join('')}
+                        </div>
+                        <p class="text-xs text-slate-400">Wybierz wszystkie poprawne odpowiedzi. Klikanie przełącza zaznaczenie.</p>
+                    `;
+                } else {
+                    inputHTML = `
+                        <div class="${useCompactGrid ? 'grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-3' : 'space-y-3'}">
+                            ${opts.map((opt, idx) => {
+                                const isSelected = savedAns === opt.k;
+                                return `
+                                    <button onclick="selectExamAnswer('${opt.k}')" class="${getChoiceOptionClasses(isSelected, useCompactGrid)}" id="exam-opt-${opt.k}">
+                                        <div class="flex items-center gap-2">
+                                            <span class="${getChoiceBadgeClasses(isSelected, useCompactGrid)}">${String.fromCharCode(65 + idx)}</span>
+                                            ${!useCompactGrid ? '<span class="text-[11px] uppercase tracking-wider text-slate-400 dark:text-slate-500">Odpowiedź</span>' : ''}
+                                        </div>
+                                        <span class="${useCompactGrid ? 'text-sm leading-snug' : ''}">${escapeHtml(opt.text)}</span>
+                                    </button>
+                                `;
+                            }).join('')}
+                        </div>
+                    `;
+                }
+            } else if (q.type === 'open') {
+                inputHTML = `
+                    <div class="space-y-2">
+                        <textarea id="exam-open-ans" onkeyup="saveExamOpenAnswer(this.value)" placeholder="Wpisz słowa kluczowe lub pełną odpowiedź..." rows="4" class="w-full p-4 border rounded-xl bg-slate-50 dark:bg-slate-700 border-slate-200 dark:border-slate-600 focus:outline-none focus:ring-2 focus:ring-blue-500 text-sm">${savedAns || ''}</textarea>
+                        <p class="text-xs text-slate-400">Pytania otwarte w trybie egzaminu zostaną poddane ocenie samokontrolnej na ekranie wyników.</p>
+                    </div>
+                `;
+            }
+
+            card.innerHTML = `
+                <div class="space-y-4">
+                    <p class="text-lg font-bold leading-snug">${escapeHtml(q.q)}</p>
+                    ${inputHTML}
+                </div>
+            `;
+
+            // Adjust navigation buttons
+            document.getElementById('exam-prev-btn').disabled = examState.currentIndex === 0;
+            document.getElementById('exam-next-btn').innerText = examState.currentIndex === examState.questions.length - 1 ? 'Zakończ test' : 'Następne';
+
+            if (typeof MathJax !== 'undefined') {
+                MathJax.typesetPromise();
+            }
+        }
+
+        function selectExamAnswer(opt) {
+            const q = examState.questions[examState.currentIndex];
+            examState.answers[q.id] = opt;
+            const useCompactGrid = getChoiceKeys(q).length > 4;
+
+            // Re-render choices to update selected state UI (only available keys)
+            const keys = getChoiceKeys(q);
+            keys.forEach(o => {
+                const btn = document.getElementById(`exam-opt-${o}`);
+                if (!btn) return;
+                const badge = btn.querySelector('span');
+                if (o === opt) {
+                    btn.className = getChoiceOptionClasses(true, useCompactGrid);
+                    if (badge) badge.className = getChoiceBadgeClasses(true, useCompactGrid);
+                } else {
+                    btn.className = getChoiceOptionClasses(false, useCompactGrid);
+                    if (badge) badge.className = getChoiceBadgeClasses(false, useCompactGrid);
+                }
+            });
+        }
+
+        function toggleExamAnswer(opt) {
+            const q = examState.questions[examState.currentIndex];
+            const useCompactGrid = getChoiceKeys(q).length > 4;
+            const current = Array.isArray(examState.answers[q.id]) ? [...examState.answers[q.id]] : [];
+            examState.answers[q.id] = current.includes(opt)
+                ? current.filter(item => item !== opt)
+                : [...current, opt];
+
+            const selected = examState.answers[q.id];
+            const keys = getChoiceKeys(q);
+            keys.forEach(o => {
+                const btn = document.getElementById(`exam-opt-${o}`);
+                if (!btn) return;
+                const isSelected = selected.includes(o);
+                btn.className = getChoiceOptionClasses(isSelected, useCompactGrid);
+                btn.setAttribute('aria-pressed', String(isSelected));
+
+                const badge = btn.querySelector('span');
+                if (badge) {
+                    badge.className = getChoiceBadgeClasses(isSelected, useCompactGrid);
+                }
+            });
+        }
+
+        function saveExamOpenAnswer(val) {
+            const q = examState.questions[examState.currentIndex];
+            examState.answers[q.id] = val;
+        }
+
+        function prevExamQuestion() {
+            if (examState.currentIndex > 0) {
+                examState.currentIndex--;
+                loadExamQuestion();
+            }
+        }
+
+        function nextExamQuestion() {
+            if (examState.currentIndex < examState.questions.length - 1) {
+                examState.currentIndex++;
+                loadExamQuestion();
+            } else {
+                finishExam(false);
+            }
+        }
+
+        function finishExam(timeout = false) {
+            if (examState.timer) clearInterval(examState.timer);
+            examState.active = false;
+
+            if (timeout) {
+                alert("Czas minął! Egzamin został automatycznie zakończony.");
+            } else {
+                if (!confirm("Czy na pewno chcesz zakończyć egzamin i poznać swój wynik?")) return;
+            }
+
+            document.getElementById('exam-active').classList.add('hidden');
+            document.getElementById('exam-results').classList.remove('hidden');
+
+            calculateAndDisplayResults();
+        }
+
+        function calculateAndDisplayResults() {
+            let correctCount = 0;
+            let totalEvaluated = 0;
+            let reviewHTML = '';
+
+            examState.questions.forEach((q, idx) => {
+                const userAns = examState.answers[q.id];
+                const isCorrect = isAnswerCorrect(q, userAns);
+                
+                if (q.type === 'choice' || isMultiChoiceQuestion(q)) {
+                    totalEvaluated++;
+                    if (isCorrect) correctCount++;
+
+                    const correctAnswers = getCorrectAnswers(q);
+
+                    reviewHTML += `
+                        <div class="p-4 rounded-2xl border ${isCorrect ? 'border-green-200 bg-green-50/50 dark:border-green-900/30 dark:bg-green-900/10' : 'border-red-200 bg-red-50/50 dark:border-red-900/30 dark:bg-red-900/10'} space-y-2">
+                            <p class="font-bold text-sm text-slate-500 dark:text-slate-400">Pytanie ${idx + 1} (Szczegół ID: ${q.id})</p>
+                            <p class="font-bold text-base">${escapeHtml(q.q)}</p>
+                            <div class="grid grid-cols-1 md:grid-cols-2 gap-2 text-sm pt-2">
+                                <div class="${isCorrect ? 'text-green-700 dark:text-green-400' : 'text-red-700 dark:text-red-400'}">
+                                    <strong>Twoja odpowiedź:</strong> ${formatAnswerText(q, userAns)}
+                                </div>
+                                <div class="text-green-700 dark:text-green-400">
+                                    <strong>Poprawna odpowiedź:</strong> ${correctAnswers.map(key => `${key.toUpperCase()}) ${escapeHtml(q[key])}`).join(', ')}
+                                </div>
+                            </div>
+                            <div class="mt-2 text-xs text-slate-500 border-t pt-2 dark:border-slate-700">${escapeHtml(q.exp)}</div>
+                        </div>
+                    `;
+                } else if (q.type === 'open') {
+                    // Manual assessment widget for open questions
+                    reviewHTML += `
+                        <div id="self-assess-${q.id}" class="p-4 rounded-2xl border border-slate-200 bg-slate-50 dark:border-slate-700 dark:bg-slate-800 space-y-3">
+                            <p class="font-bold text-sm text-slate-500 dark:text-slate-400">Pytanie ${idx + 1} (Otwarte ID: ${q.id})</p>
+                            <p class="font-bold text-base">${escapeHtml(q.q)}</p>
+                            <div class="p-3 bg-white dark:bg-slate-700 rounded-xl text-sm border">
+                                <strong class="block text-xs text-slate-400 mb-1">Twoja odpowiedź:</strong>
+                                ${userAns ? escapeHtml(userAns) : '<span class="italic text-red-500">Brak odpowiedzi</span>'}
+                            </div>
+                            <div class="p-3 bg-blue-50/60 dark:bg-blue-900/10 rounded-xl text-sm border border-blue-100 dark:border-blue-900/30">
+                                <strong class="block text-xs text-blue-500 mb-1">Odpowiedź wzorcowa:</strong>
+                                ${escapeHtml(q.exp)}
+                            </div>
+                            <div class="flex items-center justify-between pt-2">
+                                <span class="text-xs text-slate-500 font-medium">Czy zaliczasz to pytanie?</span>
+                                <div class="flex space-x-2">
+                                    <button onclick="selfAssess(${q.id}, false)" class="px-3 py-1.5 text-xs bg-red-100 text-red-700 dark:bg-red-900/30 dark:text-red-400 rounded-lg font-bold">Niezaliczone</button>
+                                    <button onclick="selfAssess(${q.id}, true)" class="px-3 py-1.5 text-xs bg-green-100 text-green-700 dark:bg-green-900/30 dark:text-green-400 rounded-lg font-bold">Zaliczone</button>
+                                </div>
+                            </div>
+                        </div>
+                    `;
+                }
+            });
+
+            document.getElementById('exam-results-review').innerHTML = reviewHTML;
+
+            // Stats calculation for the scoring card
+            const percentage = totalEvaluated > 0 ? Math.round((correctCount / totalEvaluated) * 100) : 0;
+            document.getElementById('exam-score').innerText = `${percentage}%`;
+            document.getElementById('exam-correct-count').innerText = `${correctCount} / ${totalEvaluated}`;
+
+            // Elapsed Time calculation
+            const elapsed = examState.timeLimit - examState.timeRemaining;
+            const mins = Math.floor(elapsed / 60);
+            const secs = elapsed % 60;
+            document.getElementById('exam-time-elapsed').innerText = `${mins}:${secs.toString().padStart(2, '0')}`;
+
+            // Grade evaluation threshold
+            const isPassed = percentage >= 50; // Threshold of 50%
+            const statusTitle = document.getElementById('exam-result-title');
+            const finalGrade = document.getElementById('exam-final-grade');
+            const iconBg = document.getElementById('exam-result-icon-bg');
+            const icon = document.getElementById('exam-result-icon');
+
+            if (isPassed) {
+                statusTitle.innerText = "Gratulacje! Zdałeś Egzamin!";
+                finalGrade.innerText = "Pozytywna";
+                finalGrade.className = "text-2xl font-bold mt-1 text-green-600 dark:text-green-400";
+                iconBg.className = "inline-flex p-4 rounded-full bg-green-100 dark:bg-green-900/30 text-green-600 dark:text-green-400";
+                icon.innerHTML = `<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path>`;
+            } else {
+                statusTitle.innerText = "Niestety, nie zdałeś!";
+                finalGrade.innerText = "Negatywna";
+                finalGrade.className = "text-2xl font-bold mt-1 text-red-600 dark:text-red-400";
+                iconBg.className = "inline-flex p-4 rounded-full bg-red-100 dark:bg-red-900/30 text-red-600 dark:text-red-400";
+                icon.innerHTML = `<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2m7-2a9 9 0 11-18 0 9 9 0 0118 0z"></path>`;
+            }
+        }
+
+        // Custom self assessment algorithm for open questions
+        window.selfAssess = function(qId, status) {
+            const card = document.getElementById(`self-assess-${qId}`);
+            if (status) {
+                card.className = "p-4 rounded-2xl border border-green-200 bg-green-50/50 dark:border-green-900/30 dark:bg-green-900/10 space-y-3";
+                card.querySelector('div:last-child').innerHTML = `<span class="text-xs text-green-600 font-bold flex items-center space-x-1">
+                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>
+                    <span>Oznaczono jako zaliczone</span>
+                </span>`;
+            } else {
+                card.className = "p-4 rounded-2xl border border-red-200 bg-red-50/50 dark:border-red-900/30 dark:bg-red-900/10 space-y-3";
+                card.querySelector('div:last-child').innerHTML = `<span class="text-xs text-red-600 font-bold flex items-center space-x-1">
+                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
+                    <span>Oznaczono jako niezaliczone</span>
+                </span>`;
+            }
+            updateQuestionHistory(qId, status);
+        }
+
+        function exitExam() {
+            document.getElementById('exam-results').classList.add('hidden');
+            document.getElementById('exam-setup').classList.remove('hidden');
+        }
+
+        // ==========================================
+        // DATABASE BROWSER (SEARCH & LIST)
+        // ==========================================
+        function loadBrowseDatabase() {
+            const list = document.getElementById('browse-list');
+            list.innerHTML = questionBank.map(q => {
+                let badgeHTML = q.type === 'open' ? 
+                    `<span class="text-xs bg-purple-50 text-purple-600 dark:bg-purple-900/30 dark:text-purple-400 font-bold px-2.5 py-1 rounded-lg">Otwarte</span>` : 
+                    `<span class="text-xs ${isMultiChoiceQuestion(q) ? 'bg-amber-50 text-amber-700 dark:bg-amber-900/30 dark:text-amber-300' : 'bg-blue-50 text-blue-600 dark:bg-blue-900/30 dark:text-blue-400'} font-bold px-2.5 py-1 rounded-lg">${isMultiChoiceQuestion(q) ? 'Wielokrotny wybór' : 'Pojedynczy wybór'}</span>`;
+
+                return `
+                    <div class="bg-white dark:bg-slate-800 p-5 rounded-2xl border border-slate-200 dark:border-slate-700 hover:shadow-md transition duration-150 space-y-3 browse-item" data-text="${q.q.toLowerCase()}" data-id="${q.id}">
+                        <div class="flex items-center justify-between">
+                            <span class="text-xs font-bold text-slate-400">Pytanie ${q.id}</span>
+                            <div class="flex items-center space-x-2">
+                                ${badgeHTML}
+                                <button onclick="studyNow(${q.id})" class="text-xs bg-slate-100 hover:bg-slate-200 dark:bg-slate-700 dark:hover:bg-slate-600 px-2.5 py-1 rounded-lg transition-colors font-semibold">Nauka</button>
+                            </div>
+                        </div>
+                        <p class="font-bold text-base leading-snug">${escapeHtml(q.q)}</p>
+                        
+                        <!-- Collapsible answer explanation -->
+                        <details class="group border-t pt-3 border-slate-100 dark:border-slate-700 text-sm">
+                            <summary class="cursor-pointer font-semibold text-slate-500 hover:text-slate-800 dark:hover:text-slate-300 list-none flex items-center justify-between select-none">
+                                <span>Pokaż poprawną odpowiedź</span>
+                                <span class="transition duration-150 group-open:rotate-180">&darr;</span>
+                            </summary>
+                            <div class="mt-3 space-y-2 text-slate-600 dark:text-slate-300">
+                                ${(q.type === 'choice' || isMultiChoiceQuestion(q)) ? `
+                                    <p class="font-bold text-green-600 dark:text-green-400">
+                                        Poprawna odpowiedź: ${getCorrectAnswers(q).map(key => `${key.toUpperCase()}) ${escapeHtml(q[key])}`).join(', ')}
+                                    </p>
+                                ` : ''}
+                                <p class="text-xs leading-relaxed bg-slate-50 dark:bg-slate-900 p-3 rounded-xl border border-slate-100 dark:border-slate-800">${escapeHtml(q.exp)}</p>
+                            </div>
+                        </details>
+                    </div>
+                `;
+            }).join('');
+        }
+
+        function filterQuestions() {
+            const query = document.getElementById('search-input').value.toLowerCase();
+            const items = document.getElementsByClassName('browse-item');
+            
+            Array.from(items).forEach(item => {
+                const text = item.getAttribute('data-text');
+                const id = item.getAttribute('data-id');
+                if (text.includes(query) || id === query) {
+                    item.classList.remove('hidden');
+                } else {
+                    item.classList.add('hidden');
+                }
+            });
+        }
+
+        window.studyNow = function(id) {
+            const targetId = typeof id === 'string' ? parseFloat(id) : id;
+            const index = questionBank.findIndex(q => q.id === targetId);
+            if (index !== -1) {
+                studyIndex = index;
+                studyMultiSelections = {};
+                loadStudyQuestion();
+                switchTab('study');
+            }
+        }
+
+        // ==========================================
+        // STARRED / FAVORITES ENGINE
+        // ==========================================
+        function loadStarredQuestions() {
+            const list = document.getElementById('starred-list');
+            const stats = JSON.parse(localStorage.getItem('networks_userStats')) || { stars: [] };
+
+            if (stats.stars.length === 0) {
+                list.innerHTML = `
+                    <div class="text-center py-12 bg-white dark:bg-slate-800 rounded-3xl border border-dashed border-slate-200 dark:border-slate-700">
+                        <p class="text-slate-400">Nie dodałeś jeszcze żadnego pytania do ulubionych.</p>
+                        <button onclick="switchTab('study')" class="mt-4 text-blue-600 hover:underline font-semibold text-sm">Przejdź do nauki i oznacz gwiazdką</button>
+                    </div>
+                `;
+                return;
+            }
+
+            list.innerHTML = questionBank.filter(q => stats.stars.includes(q.id)).map(q => {
+                return `
+                    <div class="bg-white dark:bg-slate-800 p-5 rounded-2xl border border-slate-200 dark:border-slate-700 shadow-sm space-y-3">
+                        <div class="flex items-center justify-between">
+                            <span class="text-xs font-bold text-slate-400">Pytanie ${q.id}</span>
+                            <div class="flex items-center space-x-2">
+                                <button onclick="toggleStar(${q.id})" class="text-amber-500 hover:text-slate-400 transition-colors">
+                                    <svg class="w-5 h-5 fill-current" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11.049 2.927c.3-.921 1.603-.921 1.902 0l1.519 4.674a1 1 0 00.95.69h4.915c.969 0 1.371 1.24.588 1.81l-3.976 2.888a1 1 0 00-.363 1.118l1.518 4.674c.3.922-.755 1.688-1.538 1.118l-3.976-2.888a1 1 0 00-1.176 0l-3.976 2.888c-.783.57-1.838-.197-1.538-1.118l1.518-4.674a1 1 0 00-.363-1.118l-3.976-2.888c-.784-.57-.38-1.81.588-1.81h4.914a1 1 0 00.951-.69l1.519-4.674z"></path>
+                                    </svg>
+                                </button>
+                                <button onclick="studyNow(${q.id})" class="text-xs bg-slate-100 hover:bg-slate-200 dark:bg-slate-700 dark:hover:bg-slate-600 px-2.5 py-1 rounded-lg transition-colors font-semibold">Ucz się teraz</button>
+                            </div>
+                        </div>
+                        <p class="font-bold text-base leading-snug">${escapeHtml(q.q)}</p>
+                    </div>
+                `;
+            }).join('');
+        }
+
+        // Helper string escaper for sanitizing inputs and rendering beautifully
+        function escapeHtml(text) {
+            if (!text) return '';
+            return text
+                .replace(/&/g, "&amp;")
+                .replace(/</g, "&lt;")
+                .replace(/>/g, "&gt;")
+                .replace(/"/g, "&quot;")
+                .replace(/'/g, "&#039;");
+        }
+    </script>
+</body>
+</html>

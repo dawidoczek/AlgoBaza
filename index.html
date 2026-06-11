@@ -1002,6 +1002,8 @@ const questionBank = [
     }
 ];
 
+    const USER_STATS_STORAGE_KEY = 'algo_stats';
+
 // Ensure every question has an explanation (fill missing ones)
         questionBank.forEach(q => {
             if (!q.exp || (typeof q.exp === 'string' && q.exp.trim() === '')) q.exp = 'Brak wyjaśnienia.';
@@ -1183,18 +1185,18 @@ const questionBank = [
 
         // Progress & Statistics Core Logic
         function initProgress() {
-            let userStats = JSON.parse(localStorage.getItem('networks_userStats')) || {
+            let userStats = JSON.parse(localStorage.getItem(USER_STATS_STORAGE_KEY)) || {
                 solved: {},
                 correctCount: 0,
                 wrongCount: 0,
                 stars: []
             };
-            localStorage.setItem('networks_userStats', JSON.stringify(userStats));
+            localStorage.setItem(USER_STATS_STORAGE_KEY, JSON.stringify(userStats));
             updateProgressDOM();
         }
 
         function updateProgressDOM() {
-            const stats = JSON.parse(localStorage.getItem('networks_userStats'));
+            const stats = JSON.parse(localStorage.getItem(USER_STATS_STORAGE_KEY));
             const totalQuestions = questionBank.length;
             const solvedCount = Object.keys(stats.solved).length;
             
@@ -1209,7 +1211,7 @@ const questionBank = [
         }
 
         function toggleStar(id) {
-            let stats = JSON.parse(localStorage.getItem('networks_userStats'));
+            let stats = JSON.parse(localStorage.getItem(USER_STATS_STORAGE_KEY));
             if (stats.stars.includes(id)) {
                 stats.stars = stats.stars.filter(starId => starId !== id);
                 showToast("Pytanie usunięte z ulubionych");
@@ -1217,7 +1219,7 @@ const questionBank = [
                 stats.stars.push(id);
                 showToast("Pytanie dodane do ulubionych");
             }
-            localStorage.setItem('networks_userStats', JSON.stringify(stats));
+            localStorage.setItem(USER_STATS_STORAGE_KEY, JSON.stringify(stats));
             loadStarredQuestions();
             
             // Re-render current question views if active
@@ -1228,7 +1230,7 @@ const questionBank = [
 
         function resetStats() {
             if (confirm("Czy na pewno chcesz zresetować wszystkie statystyki, historię odpowiedzi i ulubione pytania?")) {
-                localStorage.removeItem('networks_userStats');
+                localStorage.removeItem(USER_STATS_STORAGE_KEY);
                 initProgress();
                 studyIndex = 0;
                 loadStudyQuestion();
@@ -1255,7 +1257,7 @@ const questionBank = [
         function loadStudyQuestion() {
             const card = document.getElementById('study-card');
             const q = questionBank[studyIndex];
-            const stats = JSON.parse(localStorage.getItem('networks_userStats'));
+            const stats = JSON.parse(localStorage.getItem(USER_STATS_STORAGE_KEY));
             const isStarred = stats.stars.includes(q.id);
             const multiChoice = isMultiChoiceQuestion(q);
             studyMultiSelections[q.id] = [];
@@ -1456,14 +1458,14 @@ const questionBank = [
         }
 
         function updateQuestionHistory(id, isCorrect) {
-            let stats = JSON.parse(localStorage.getItem('networks_userStats'));
+            let stats = JSON.parse(localStorage.getItem(USER_STATS_STORAGE_KEY));
             stats.solved[id] = true;
             if (isCorrect) {
                 stats.correctCount++;
             } else {
                 stats.wrongCount++;
             }
-            localStorage.setItem('networks_userStats', JSON.stringify(stats));
+            localStorage.setItem(USER_STATS_STORAGE_KEY, JSON.stringify(stats));
             updateProgressDOM();
         }
 
@@ -1898,7 +1900,7 @@ const questionBank = [
         // ==========================================
         function loadStarredQuestions() {
             const list = document.getElementById('starred-list');
-            const stats = JSON.parse(localStorage.getItem('networks_userStats')) || { stars: [] };
+            const stats = JSON.parse(localStorage.getItem(USER_STATS_STORAGE_KEY)) || { stars: [] };
 
             if (stats.stars.length === 0) {
                 list.innerHTML = `
